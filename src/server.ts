@@ -1,4 +1,7 @@
 import express, { Express, Request, Response } from "express";
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: __dirname + "/.env" });
 
 const app: Express = express();
 
