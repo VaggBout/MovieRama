@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rm -rf build/",
-    "postbuild": "cp src/.env dist/src/",
-    "start": "node dist/src/server.js",
+    "postbuild": "cp -r src/.env src/views dist/src/",
+    "start": "npm run build && node dist/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vaggelis Boutas",
