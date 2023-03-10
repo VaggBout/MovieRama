@@ -44,13 +44,42 @@ export class User {
 
     public static async findByEmail(email: string): Promise<User | null> {
         const query = `
-            SELECT email, name, hash
+            SELECT email, name, hash, id
             FROM users
             WHERE email = $1
-            LIMIT 1
+            LIMIT 1;
         `;
 
         const params = [email];
+
+        try {
+            let result = await getDb().query(query, params);
+            if (result.rowCount === 0) {
+                return null;
+            }
+
+            const rawUser = result.rows[0] as User;
+            return new User(
+                rawUser.id,
+                rawUser.email,
+                rawUser.name,
+                rawUser.hash
+            );
+        } catch (error) {
+            logger.error(`Failed to search user entry. Error: ${error}`);
+            throw new Error("Failed to search user entry");
+        }
+    }
+
+    public static async findById(id: number): Promise<User | null> {
+        const query = `
+            SELECT email, name, hash, id
+            FROM users
+            WHERE id = $1
+            LIMIT 1;
+        `;
+
+        const params = [id];
 
         try {
             let result = await getDb().query(query, params);

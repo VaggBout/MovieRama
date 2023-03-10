@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt";
 import { UserDto } from "../types/dto";
 import logger from "../utils/logger";
 import jwt from "jsonwebtoken";
+import { JwtTokenSchema, TokenStatus } from "../types/auth";
 
 const saltRounds = 10;
 const jwtSignature = process.env.TOKEN_SECRET || "secret";
@@ -81,5 +82,20 @@ async function generateHash(s: string): Promise<string> {
         return hash;
     } catch (error) {
         throw new Error(`Error hasing ${s}. Error: ${JSON.stringify(error)}`);
+    }
+}
+
+export function validateToken(token: string): TokenStatus {
+    try {
+        const tokenData = jwt.verify(token, jwtSignature, {
+            ignoreExpiration: false,
+        }) as JwtTokenSchema;
+
+        return {
+            decodedToken: tokenData,
+        };
+    } catch (error) {
+        logger.warn(`Failed to verify token: ${token}`);
+        return { decodedToken: null };
     }
 }

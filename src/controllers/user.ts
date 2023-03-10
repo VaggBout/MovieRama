@@ -25,6 +25,10 @@ export async function register(req: Request, res: Response): Promise<void> {
 }
 
 export function getRegister(_req: Request, res: Response): void {
+    if (res.locals.user) {
+        return res.redirect("/");
+    }
+
     res.render("register");
 }
 
@@ -58,5 +62,9 @@ export async function login(req: Request, res: Response): Promise<void> {
 }
 
 export function getLogin(_req: Request, res: Response) {
+    if (res.locals.user) {
+        return res.redirect("/");
+    }
+
     res.render("login");
 }

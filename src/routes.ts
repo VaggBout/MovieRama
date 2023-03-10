@@ -4,6 +4,8 @@ import * as User from "./controllers/user";
 import * as UserMiddleware from "./middlewares/user";
 
 const routes = express.Router();
+routes.use(UserMiddleware.populateAuthUser);
+
 routes.get("/", Homepage.get);
 
 routes.get("/register", User.getRegister);

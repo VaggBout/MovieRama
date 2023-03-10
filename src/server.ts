@@ -4,6 +4,7 @@ import routes from "./routes";
 import path from "path";
 import { init } from "./models/adapter/postgresAdapter";
 import logger from "./utils/logger";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.set("view engine", "ejs");
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 
+app.use(cookieParser());
 app.use(express.json());
 app.use("/", routes);
 

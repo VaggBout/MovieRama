@@ -1,6 +1,8 @@
 import Joi, { ValidationError } from "joi";
 import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger";
+import * as UserService from "../services/user";
+import { User } from "../models/user";
 
 export function validateRegisterReq(
     req: Request,
@@ -57,4 +59,31 @@ export function validateLoginReq(
     }
 
     next();
+}
+
+/**
+ * Middleware responsible for populating
+ * user object to `res` in case user is already logged in
+ */
+export async function populateAuthUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    const token: string | null = req.cookies.token;
+    if (!token) {
+        return next();
+    }
+
+    const validatedToken = UserService.validateToken(token);
+    if (!validatedToken.decodedToken) {
+        return next();
+    }
+
+    try {
+        const user = await User.findById(validatedToken.decodedToken.id);
+        res.locals.user = user;
+    } finally {
+        return next();
+    }
 }
