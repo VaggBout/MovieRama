@@ -9,4 +9,7 @@ routes.get("/", Homepage.get);
 routes.get("/register", User.getRegister);
 routes.post("/register", UserMiddleware.validateRegisterReq, User.register);
 
+routes.get("/login", User.getLogin);
+routes.post("/login", UserMiddleware.validateLoginReq, User.login);
+
 export = routes;

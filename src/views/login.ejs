@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+    </head>
+    <body class="container">
+        <header><%- include('partials/header'); %></header>
+        <main>
+            <div class="jumbotron">
+                <form id="loginForm">
+                    <label for="email">Email:</label><br />
+                    <input type="text" id="email" name="email" required /><br />
+                    <label for="password">Password:</label><br />
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                    /><br />
+                    <span id="error" class="mh-5"></span>
+                    <br />
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </main>
+
+        <script>
+            document
+                .getElementById("loginForm")
+                .addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+                    const data = {
+                        email: document.getElementById("email").value,
+                        password: document.getElementById("password").value,
+                    };
+
+                    await axios
+                        .post("/login", data)
+                        .then(() => {
+                            window.location.href = "/";
+                        })
+                        .catch((error) => {
+                            errorMessage(error.response.data.error);
+                        });
+                });
+
+            function errorMessage(e) {
+                const error = document.getElementById("error");
+                error.innerHTML = `
+                    <span style='color: red;'>
+                        ${e}
+                    </span>`;
+            }
+        </script>
+
+        <footer><%- include('partials/footer'); %></footer>
+    </body>
+</html>

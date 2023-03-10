@@ -2,8 +2,11 @@ import { User } from "../models/user";
 import { OperationResult } from "../types/generic";
 import * as bcrypt from "bcrypt";
 import { UserDto } from "../types/dto";
+import logger from "../utils/logger";
+import jwt from "jsonwebtoken";
 
 const saltRounds = 10;
+const jwtSignature = process.env.TOKEN_SECRET || "secret";
 
 export async function register(
     userData: UserDto
@@ -25,6 +28,51 @@ export async function register(
     }
 
     return { data: user };
+}
+
+/**
+ * Tries to authenticate the provided credentials. If the credentials match
+ * a `User` instance is returned
+ * @param email
+ * @param password
+ * @returns
+ */
+export async function auth(
+    email: string,
+    password: string
+): Promise<OperationResult<User>> {
+    const user = await User.findByEmail(email);
+
+    if (!user) {
+        logger.debug(`User ${email} does not exist`);
+        return {
+            error: "Invalid credentials",
+        };
+    }
+
+    const hasValidCreds = await bcrypt.compare(password, user.hash);
+    if (!hasValidCreds) {
+        logger.debug(`Invalid credentials for user ${email}`);
+        return {
+            error: "Invalid credentials",
+        };
+    }
+
+    return { data: user };
+}
+
+export function generateAuthToken(user: User): string {
+    const token = jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+        },
+        jwtSignature,
+        { expiresIn: "30d" }
+    );
+
+    return token;
 }
 
 async function generateHash(s: string): Promise<string> {
