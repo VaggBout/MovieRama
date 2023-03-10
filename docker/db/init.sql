@@ -1,0 +1,3 @@
+CREATE USER movie WITH PASSWORD 'password';
+CREATE DATABASE movierama;
+GRANT ALL PRIVILEGES ON DATABASE movierama TO movie;
