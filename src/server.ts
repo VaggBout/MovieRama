@@ -2,8 +2,10 @@ import express, { Express } from "express";
 import * as dotenv from "dotenv";
 import routes from "./routes";
 import path from "path";
+import { init } from "./models/adapter/postgresAdapter";
+import logger from "./utils/logger";
 
-dotenv.config({ path: __dirname + "/.env" });
+dotenv.config();
 
 const app: Express = express();
 
@@ -12,8 +14,11 @@ app.set("view engine", "ejs");
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 
+app.use(express.json());
 app.use("/", routes);
 
 app.listen(port, () => {
-    console.log(`[backend]: Server is running at http://localhost:${port}`);
+    init().then(() =>
+        logger.info(`Server is running at http://localhost:${port}`)
+    );
 });
