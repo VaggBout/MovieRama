@@ -2,7 +2,7 @@ import { describe, expect, jest, test } from "@jest/globals";
 import * as MovieMiddleware from "../../src/middlewares/movie";
 import express from "express";
 
-describe("Movie middlewares", () => {
+describe("Movie middleware", () => {
     describe("Validate create new movie request", () => {
         test("should respond with 401 when user is not logged in", () => {
             const next = jest.fn();
