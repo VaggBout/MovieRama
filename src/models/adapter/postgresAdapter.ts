@@ -35,7 +35,7 @@ class PostgresSQLAdapter {
         try {
             await this.query("SELECT NOW();");
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw new Error(
                 `PostgreSQL could not execute dummy query. Error: ${JSON.stringify(
                     error
