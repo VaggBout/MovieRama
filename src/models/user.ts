@@ -25,7 +25,7 @@ export class User {
 
         const params = [data.email, data.name, data.hash];
         try {
-            let result = await getDb().query(query, params);
+            const result = await getDb().query(query, params);
             if ((result.rowCount = 0)) {
                 return null;
             }
@@ -53,7 +53,7 @@ export class User {
         const params = [email];
 
         try {
-            let result = await getDb().query(query, params);
+            const result = await getDb().query(query, params);
             if (result.rowCount === 0) {
                 return null;
             }
@@ -82,7 +82,7 @@ export class User {
         const params = [id];
 
         try {
-            let result = await getDb().query(query, params);
+            const result = await getDb().query(query, params);
             if (result.rowCount === 0) {
                 return null;
             }
