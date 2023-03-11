@@ -21,7 +21,45 @@
             </div>
             <div class="container pt-3">
                 <div class="row justify-content-between">
-                    <div class="col"></div>
+                    <div class="col">
+                        <% if (locals.movies && locals.movies.length > 0) { %>
+                        <div id="moviesList">
+                            <% for(let i=0; i < locals.movies.length; i++) { %>
+                            <div
+                                class="container border border-dark border-3 px-3 py-1 my-2"
+                            >
+                                <div class="row">
+                                    <div class="col fw-bold">
+                                        <h2><%= locals.movies[i].title %></h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>
+                                            Posted by
+                                            <a href="#"
+                                                ><%= locals.movies[i].userName
+                                                %></a
+                                            >
+                                            <%= locals.movies[i].daysElapsed %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>
+                                            <%= locals.movies[i].description %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+
+                        <% } else { %>
+                        <div>None!</div>
+                        <% } %>
+                    </div>
                     <div class="col">
                         <div class="float-end">
                             <% if (locals.user) { %>
@@ -38,10 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4 p-5 bg-primary text-white rounded">
-                <h1>This is great</h1>
-                <p>Welcome to templating using EJS</p>
-            </div>
+
             <% if (locals.user) { %>
             <div
                 class="modal fade"

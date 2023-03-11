@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { MovieDto } from "../types/dto";
+import { MovieDto, MoviesPageDto } from "../types/dto";
 import logger from "../utils/logger";
 import { getDb } from "./adapter/postgresAdapter";
 
@@ -79,6 +79,50 @@ export class Movie {
                 `Failed to search for movie entry by title. Error: ${error}`
             );
             throw new Error("Failed to search for movie entry");
+        }
+    }
+
+    public static async getMoviesPage(
+        sort: "DESC" | "ASC",
+        limit: number,
+        offset: number
+    ): Promise<MoviesPageDto> {
+        const query = `
+            SELECT mv.id, mv.title, mv.description, mv.date, mv.user_id, u.name
+            FROM movies mv
+            JOIN users u
+                ON u.id = mv.user_id
+            ORDER BY mv.date ${sort}
+            LIMIT ${limit}
+            OFFSET ${offset};
+        `;
+
+        try {
+            const result = await getDb().query(query, []);
+            if (result.rowCount === 0) {
+                return [];
+            }
+
+            const rawMovies: Array<any> = result.rows;
+            return rawMovies.map((rawMovie) => {
+                const dateDiff = DateTime.fromJSDate(rawMovie.date).diffNow(
+                    "days"
+                );
+
+                return {
+                    id: rawMovie.id,
+                    title: rawMovie.title,
+                    description: rawMovie.description,
+                    daysElapsed: `${Math.abs(
+                        Math.floor(dateDiff.days)
+                    )} days ago`,
+                    userId: rawMovie.user_id,
+                    userName: rawMovie.name,
+                };
+            });
+        } catch (error) {
+            logger.error(`Failed to fetch movies page. Error: ${error}`);
+            throw new Error("Failed to fetch movies page");
         }
     }
 }

@@ -13,4 +13,15 @@ interface MovieDto {
     userId: number;
 }
 
-export { UserDto, MovieDto };
+interface MovieEntryDto {
+    id: number;
+    title: string;
+    description: string;
+    daysElapsed: string;
+    userId: number;
+    userName: string;
+}
+
+type MoviesPageDto = Array<MovieEntryDto>;
+
+export { UserDto, MovieDto, MovieEntryDto, MoviesPageDto };
