@@ -26,7 +26,7 @@ export function validateRegisterReq(
     if (error) {
         logger.warn(`Invalid new user body. Error: ${JSON.stringify(error)}`);
         res.statusCode = 400;
-        res.send({ error: `Invalid body` });
+        res.send({ error: "Invalid body" });
         return;
     }
 
@@ -54,7 +54,7 @@ export function validateLoginReq(
     if (error) {
         logger.warn(`Invalid login body. Error: ${JSON.stringify(error)}`);
         res.statusCode = 400;
-        res.send({ err: `Invalid body.` });
+        res.send({ error: "Invalid body" });
         return;
     }
 
@@ -76,12 +76,12 @@ export async function populateAuthUser(
     }
 
     const validatedToken = UserService.validateToken(token);
-    if (!validatedToken.decodedToken) {
+    if (!validatedToken) {
         return next();
     }
 
     try {
-        const user = await User.findById(validatedToken.decodedToken.id);
+        const user = await User.findById(validatedToken.id);
         res.locals.user = user;
     } finally {
         return next();

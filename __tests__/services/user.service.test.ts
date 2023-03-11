@@ -176,17 +176,17 @@ describe("User service", () => {
         test("should return decoded token when jwt is valid", async () => {
             const user = new User(1, "test@email.com", "test name", "hash");
             const jwt = UserService.generateAuthToken(user);
-            const result = UserService.validateToken(jwt);
+            const token = UserService.validateToken(jwt);
 
-            expect(result.decodedToken).not.toBeNull();
-            expect(result.decodedToken?.email).toBe("test@email.com");
+            expect(token).not.toBeNull();
+            expect(token?.email).toBe("test@email.com");
         });
 
         test("should return null when token is invalid", async () => {
             const invalidJwt = "invalid-token";
 
             const result = UserService.validateToken(invalidJwt);
-            expect(result.decodedToken).toBeNull();
+            expect(result).toBeNull();
         });
     });
 });
