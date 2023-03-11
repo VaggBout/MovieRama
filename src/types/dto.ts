@@ -4,4 +4,11 @@ interface UserDto {
     hash: string;
 }
 
-export { UserDto };
+interface MovieDto {
+    title: string;
+    description: string;
+    date: number;
+    userId: number;
+}
+
+export { UserDto, MovieDto };
