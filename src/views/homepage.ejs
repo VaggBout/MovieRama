@@ -5,8 +5,19 @@
     </head>
     <body class="container">
         <header><%- include('partials/header'); %></header>
-        <main>
-            <div class="jumbotron">
+        <main class="pt-3">
+            <div class="container">
+                <div class="row justify-content-sm-left">
+                    <div class="col">
+                        <div class="fw-bold">
+                            Sort by: <a id="likesSort" href="#">Likes</a> |
+                            <a id="hatesSort" href="#">Hates</a> |
+                            <a id="dateSort" href="#">Date</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 p-5 bg-primary text-white rounded">
                 <h1>This is great</h1>
                 <p>Welcome to templating using EJS</p>
             </div>

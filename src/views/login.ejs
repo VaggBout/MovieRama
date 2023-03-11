@@ -41,7 +41,11 @@
                             window.location.href = "/";
                         })
                         .catch((error) => {
-                            errorMessage(error.response.data.error);
+                            errorMessage(
+                                error.response.data.error
+                                    ? error.response.data.error
+                                    : "Invalid credentials"
+                            );
                         });
                 });
 
