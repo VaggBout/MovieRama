@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { MovieDto } from "../types/dto";
 import logger from "../utils/logger";
 import { getDb } from "./adapter/postgresAdapter";
@@ -7,14 +8,14 @@ export class Movie {
     title: string;
     description: string;
     userId: number;
-    date: number;
+    date: DateTime;
 
     constructor(
         id: number,
         title: string,
         description: string,
         userId: number,
-        date: number
+        date: DateTime
     ) {
         this.id = id;
         this.title = title;
@@ -71,7 +72,7 @@ export class Movie {
                 title,
                 rawMovie.description,
                 rawMovie.user_id,
-                rawMovie.date
+                DateTime.fromJSDate(rawMovie.date)
             );
         } catch (error) {
             logger.error(

@@ -3,6 +3,7 @@ import * as MovieController from "../../src/controllers/movie";
 import { Movie } from "../../src/models/movie";
 import * as MovieService from "../../src/services/movie";
 import express from "express";
+import { DateTime } from "luxon";
 
 describe("Movie controller", () => {
     describe("create", () => {
@@ -15,7 +16,7 @@ describe("Movie controller", () => {
                         "test",
                         "test desc",
                         1,
-                        Date.now() / 1000
+                        DateTime.now()
                     );
                     return Promise.resolve({ data: movie });
                 });

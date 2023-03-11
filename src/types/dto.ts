@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 interface UserDto {
     email: string;
     name: string;
@@ -7,7 +9,7 @@ interface UserDto {
 interface MovieDto {
     title: string;
     description: string;
-    date: number;
+    date: DateTime;
     userId: number;
 }
 

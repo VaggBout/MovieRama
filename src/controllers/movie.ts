@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/user";
 import { MovieDto } from "../types/dto";
 import * as MovieService from "../services/movie";
+import { DateTime } from "luxon";
 
 export async function createMovie(req: Request, res: Response): Promise<void> {
     const user: User = res.locals.user;
@@ -10,7 +11,7 @@ export async function createMovie(req: Request, res: Response): Promise<void> {
         title: req.body.title,
         description: req.body.description,
         userId: user.id,
-        date: new Date().getTime() / 1000,
+        date: DateTime.now(),
     };
 
     try {

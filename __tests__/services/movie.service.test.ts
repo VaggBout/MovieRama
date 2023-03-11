@@ -2,6 +2,7 @@ import { describe, expect, jest, test } from "@jest/globals";
 import { Movie } from "../../src/models/movie";
 import { MovieDto } from "../../src/types/dto";
 import * as MovieService from "../../src/services/movie";
+import { DateTime } from "luxon";
 
 describe("Movie service", () => {
     describe("create", () => {
@@ -18,7 +19,7 @@ describe("Movie service", () => {
                         "test",
                         "test desc",
                         1,
-                        Date.now() / 1000
+                        DateTime.now()
                     );
                     return Promise.resolve(movie);
                 });
@@ -27,7 +28,7 @@ describe("Movie service", () => {
                 title: "test",
                 description: "test desc",
                 userId: 1,
-                date: Date.now() / 1000,
+                date: DateTime.now(),
             };
 
             const result = await MovieService.create(movieDto);
@@ -51,7 +52,7 @@ describe("Movie service", () => {
                         "test",
                         "test desc",
                         1,
-                        Date.now() / 1000
+                        DateTime.now()
                     );
                     return Promise.resolve(movie);
                 });
@@ -60,7 +61,7 @@ describe("Movie service", () => {
                 title: "test",
                 description: "test desc",
                 userId: 1,
-                date: Date.now() / 1000,
+                date: DateTime.now(),
             };
 
             const result = await MovieService.create(movieDto);
@@ -87,7 +88,7 @@ describe("Movie service", () => {
                 title: "test",
                 description: "test desc",
                 userId: 1,
-                date: Date.now() / 1000,
+                date: DateTime.now(),
             };
 
             const result = await MovieService.create(movieDto);
