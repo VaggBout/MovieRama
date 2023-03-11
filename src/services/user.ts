@@ -24,7 +24,7 @@ export async function register(
     const user = await User.create(userData);
     if (!user) {
         return {
-            error: `Failed to create user`,
+            error: "Failed to create user",
         };
     }
 
