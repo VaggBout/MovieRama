@@ -24,74 +24,12 @@
                 <div class="col">
                     <% if (locals.movies && locals.movies.length > 0) { %>
                     <div id="moviesList">
-                        <% for(let i=0; i < locals.movies.length; i++) { %>
-                        <div class="container border border-dark border-3 px-3 py-1 my-2">
-                            <div class="row">
-                                <div class="col fw-bold">
-                                    <h2><%= locals.movies[i].title %></h2>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>
-                                        Posted by
-                                        <a href="#"><%= locals.movies[i].userName
-                                                %></a>
-                                        <%= locals.movies[i].daysElapsed %>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>
-                                        <%= locals.movies[i].description %>
-                                    </p>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <% if (locals.user && !locals.movies[i].vote) { %>
-                                        <p class="float-start">
-                                            <a href="#" id="movie<%=locals.movies[i].id%>"><%= locals.movies[i].likes %>
-                                                likes
-                                            </a>
-                                        </p>
-                                        <% } else { %>
-                                        <p class="float-start">
-                                            <%= locals.movies[i].likes %> likes
-                                        </p>
-                                        <% } %>
-                                        <p class="float-start">&nbsp;|&nbsp;</p>
-                                        <% if (locals.user && (locals.movies[i].vote || locals.movies[i].vote === null)) { %>
-                                        <p class="float-start">
-                                            <a href="#" id="movie<%=locals.movies[i].id%>"><%= locals.movies[i].hates %>
-                                                hates
-                                            </a>
-                                        </p>
-                                        <% } else { %>
-                                        <p class="float-start">
-                                            <%= locals.movies[i].hates %> hates
-                                        </p>
-                                        <% } %>
-                                    </div>
-                                    <div class="col">
-                                        <% if (locals.user && locals.movies[i].vote) { %>
-                                        <p class="float-end">
-                                            You like this movie &nbsp;|&nbsp; <a href="#">Unlike</a>
-                                        </p>
-                                        <% } else if (locals.user && locals.movies[i].vote === false) { %>
-                                        <p class="float-end">
-                                            You hate this movie &nbsp;|&nbsp; <a href="#">Unhate</a>
-                                        </p>
-                                        <% } %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <% for(var i=0; i < locals.movies.length; i++) { %>
+                        <%- include("partials/moviesList", { movie: movies[i], user: locals.user }); %>
                         <% } %>
                     </div>
-
                     <% } else { %>
-                    <div>None!</div>
+                    <div>No movies available! Try adding one!</div>
                     <% } %>
                 </div>
                 <div class="col">

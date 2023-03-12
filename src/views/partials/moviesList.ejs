@@ -1,0 +1,62 @@
+<div class="container border border-dark border-3 px-3 py-1 my-2">
+    <div class="row">
+        <div class="col fw-bold">
+            <h2><%= locals.movie.title %></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>
+                Posted by
+                <a href="#"><%= locals.movie.userName
+                        %></a>
+                <%= locals.movie.daysElapsed %>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>
+                <%= locals.movie.description %>
+            </p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <% if (locals.user && !(locals.user.id === locals.movie.userId) && !locals.movie.vote) { %>
+                <p class="float-start">
+                    <a href="#" id="movie<%=locals.movie.id%>"><%= locals.movie.likes %>
+                        likes
+                    </a>
+                </p>
+                <% } else { %>
+                <p class="float-start">
+                    <%= locals.movie.likes %> likes
+                </p>
+                <% } %>
+                <p class="float-start">&nbsp;|&nbsp;</p>
+                <% if (locals.user && !(locals.user.id === locals.movie.userId) && (locals.movie.vote || locals.movie.vote === null)) { %>
+                <p class="float-start">
+                    <a href="#" id="movie<%=locals.movie.id%>"><%= locals.movie.hates %>
+                        hates
+                    </a>
+                </p>
+                <% } else { %>
+                <p class="float-start">
+                    <%= locals.movie.hates %> hates
+                </p>
+                <% } %>
+            </div>
+            <div class="col">
+                <% if (locals.user && locals.movie.vote) { %>
+                <p class="float-end">
+                    You like this movie &nbsp;|&nbsp; <a href="#">Unlike</a>
+                </p>
+                <% } else if (locals.user && locals.movie.vote === false) { %>
+                <p class="float-end">
+                    You hate this movie &nbsp;|&nbsp; <a href="#">Unhate</a>
+                </p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
