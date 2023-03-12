@@ -38,7 +38,7 @@ describe("Movie controller", () => {
                 }),
             } as unknown as express.Response;
 
-            await MovieController.createMovie(req, res);
+            await MovieController.create(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
 
             mockCreate.mockClear();
@@ -69,7 +69,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.createMovie(req, res);
+            await MovieController.create(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(400);
 
@@ -101,7 +101,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.createMovie(req, res);
+            await MovieController.create(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
 

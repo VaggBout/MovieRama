@@ -25,7 +25,7 @@ routes.post("/login", UserMiddleware.validateLoginReq, UserController.login);
 routes.post(
     "/movie",
     MovieMiddleware.validateCreateMovieReq,
-    MovieController.createMovie
+    MovieController.create
 );
 
 export = routes;
