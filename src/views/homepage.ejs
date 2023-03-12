@@ -24,9 +24,7 @@
                 <div class="col">
                     <% if (locals.movies && locals.movies.length > 0) { %>
                     <div id="moviesList">
-                        <% for(var i=0; i < locals.movies.length; i++) { %>
-                        <%- include("partials/moviesList", { movie: movies[i], user: locals.user }); %>
-                        <% } %>
+                        <%- include("partials/moviesList", { movies: movies, user: locals.user }); %>
                     </div>
                     <% } else { %>
                     <div>No movies available! Try adding one!</div>

@@ -1,63 +1,64 @@
+<% for(let i=0; i < locals.movies.length; i++) { %>
 <div class="container border border-dark border-3 px-3 py-1 my-2">
     <div class="row">
         <div class="col fw-bold">
-            <h2><%= locals.movie.title %></h2>
+            <h2><%= locals.movies[i].title %></h2>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <p>
                 Posted by
-                <a href="#"><%= locals.movie.userName
+                <a href="#"><%= locals.movies[i].userName
                         %></a>
-                <%= locals.movie.daysElapsed %>
+                <%= locals.movies[i].daysElapsed %>
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <p>
-                <%= locals.movie.description %>
+                <%= locals.movies[i].description %>
             </p>
         </div>
         <div class="row">
             <div class="col">
-                <% if (locals.user && !(locals.user.id === locals.movie.userId) && !locals.movie.vote) { %>
+                <% if (locals.user && !(locals.user.id === locals.movies[i].userId) && !locals.movies[i].vote) { %>
                 <p class="float-start">
-                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="like"><%= locals.movie.likes %>
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movies[i].id%>" data-action="like"><%= locals.movies[i].likes %>
                         likes
                     </a>
                 </p>
                 <% } else { %>
                 <p class="float-start">
-                    <%= locals.movie.likes %> likes
+                    <%= locals.movies[i].likes %> likes
                 </p>
                 <% } %>
                 <p class="float-start">&nbsp;|&nbsp;</p>
-                <% if (locals.user && !(locals.user.id === locals.movie.userId) && (locals.movie.vote || locals.movie.vote === null)) { %>
+                <% if (locals.user && !(locals.user.id === locals.movies[i].userId) && (locals.movies[i].vote || locals.movies[i].vote === null)) { %>
                 <p class="float-start">
-                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="hate"><%= locals.movie.hates %>
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movies[i].id%>" data-action="hate"><%= locals.movies[i].hates %>
                         hates
                     </a>
                 </p>
                 <% } else { %>
                 <p class="float-start">
-                    <%= locals.movie.hates %> hates
+                    <%= locals.movies[i].hates %> hates
                 </p>
                 <% } %>
             </div>
             <div class="col">
-                <% if (locals.user && locals.movie.vote) { %>
+                <% if (locals.user && locals.movies[i].vote) { %>
                 <p class="float-end">
                     You like this movie &nbsp;|&nbsp;
-                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="unlike">
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movies[i].id%>" data-action="unlike">
                         Unlike
                     </a>
                 </p>
-                <% } else if (locals.user && locals.movie.vote === false) { %>
+                <% } else if (locals.user && locals.movies[i].vote === false) { %>
                 <p class="float-end">
                     You hate this movie &nbsp;|&nbsp;
-                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="unhate">
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movies[i].id%>" data-action="unhate">
                         Unhate
                     </a>
                 </p>
@@ -66,3 +67,4 @@
         </div>
     </div>
 </div>
+<% } %>
