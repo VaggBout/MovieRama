@@ -118,10 +118,21 @@ export class Movie {
         offset: number
     ): Promise<MoviesPageDto> {
         const query = `
-            SELECT mv.id, mv.title, mv.description, mv.date, mv.user_id, u.name
+            SELECT 
+                mv.id, 
+                mv.title, 
+                mv.description, 
+                mv.date, 
+                mv.user_id, 
+                u.name,
+                COUNT(CASE WHEN v."like" IS TRUE THEN 1 END) AS likes,
+                COUNT(CASE WHEN v."like" IS FALSE THEN 1 END) AS hates
             FROM movies mv
             JOIN users u
                 ON u.id = mv.user_id
+            LEFT JOIN votes v
+                ON mv.id = v.movie_id
+            GROUP BY mv.id, u.name
             ORDER BY mv.date ${sort}
             LIMIT ${limit}
             OFFSET ${offset};
@@ -148,6 +159,78 @@ export class Movie {
                     )} days ago`,
                     userId: rawMovie.user_id,
                     userName: rawMovie.name,
+                    likes: rawMovie.likes,
+                    hates: rawMovie.hates,
+                    vote: null,
+                };
+            });
+        } catch (error) {
+            logger.error(`Failed to fetch movies page. Error: ${error}`);
+            throw new Error("Failed to fetch movies page");
+        }
+    }
+
+    public static async getMoviesPageLoggedIn(
+        sort: "DESC" | "ASC",
+        limit: number,
+        offset: number,
+        userId: number
+    ): Promise<MoviesPageDto> {
+        const query = `
+            WITH user_votes AS (
+                SELECT "like", movie_id
+                FROM votes
+                WHERE user_id = $1
+            )
+            SELECT 
+                mv.id, 
+                mv.title, 
+                mv.description, 
+                mv.date, 
+                mv.user_id, 
+                u.name,
+                COUNT(CASE WHEN v."like" IS TRUE THEN 1 END) AS likes,
+                COUNT(CASE WHEN v."like" IS FALSE THEN 1 END) AS hates,
+                uv."like" AS vote
+            FROM movies mv
+            JOIN users u
+                ON u.id = mv.user_id
+            LEFT JOIN votes v
+                ON mv.id = v.movie_id
+            LEFT JOIN user_votes uv
+                ON uv.movie_id = mv.id
+            GROUP BY mv.id, u.name, uv."like"
+            ORDER BY mv.date ${sort}
+            LIMIT ${limit}
+            OFFSET ${offset};
+        `;
+
+        const params = [userId];
+
+        try {
+            const result = await getDb().query(query, params);
+            if (result.rowCount === 0) {
+                return [];
+            }
+
+            const rawMovies: Array<any> = result.rows;
+            return rawMovies.map((rawMovie) => {
+                const dateDiff = DateTime.fromJSDate(rawMovie.date).diffNow(
+                    "days"
+                );
+
+                return {
+                    id: rawMovie.id,
+                    title: rawMovie.title,
+                    description: rawMovie.description,
+                    daysElapsed: `${Math.abs(
+                        Math.floor(dateDiff.days)
+                    )} days ago`,
+                    userId: rawMovie.user_id,
+                    userName: rawMovie.name,
+                    likes: rawMovie.likes,
+                    hates: rawMovie.hates,
+                    vote: rawMovie.vote,
                 };
             });
         } catch (error) {

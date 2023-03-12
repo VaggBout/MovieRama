@@ -24,9 +24,16 @@ export async function create(data: MovieDto): Promise<OperationResult<Movie>> {
 export async function getMoviesPage(
     sort: "DESC" | "ASC" = "DESC",
     limit: number = 5,
-    offset: number = 0
+    offset: number = 0,
+    userId: number | null = null
 ): Promise<OperationResult<MoviesPageDto>> {
-    const data = await Movie.getMoviesPage(sort, limit, offset);
+    let data: MoviesPageDto;
+
+    if (userId) {
+        data = await Movie.getMoviesPageLoggedIn(sort, limit, offset, userId);
+    } else {
+        data = await Movie.getMoviesPage(sort, limit, offset);
+    }
 
     return {
         data,

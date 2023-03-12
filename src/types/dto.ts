@@ -20,6 +20,9 @@ interface MovieEntryDto {
     daysElapsed: string;
     userId: number;
     userName: string;
+    likes: number;
+    hates: number;
+    vote: boolean | null;
 }
 
 interface VoteDto {
