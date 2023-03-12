@@ -42,3 +42,43 @@ export async function validateCreateVoteReq(
 
     next();
 }
+
+/**
+ * Validate remove vote request
+ *
+ * In order to create a new vote:
+ * * User must be logged in
+ * * Request params contain valid id
+ */
+export async function validateRemoveVoteReq(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    if (!res.locals.user) {
+        res.statusCode = 401;
+        res.send();
+        return;
+    }
+
+    const voteValidator = Joi.object({
+        id: Joi.number().required(),
+    });
+
+    const { error } = <
+        {
+            error: ValidationError;
+        }
+    >voteValidator.validate(req.params, { errors: { escapeHtml: true } });
+
+    if (error) {
+        logger.warn(
+            `Invalid remove vote body. Error: ${JSON.stringify(error)}`
+        );
+        res.statusCode = 400;
+        res.send({ error: "Invalid body" });
+        return;
+    }
+
+    next();
+}

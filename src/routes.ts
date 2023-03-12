@@ -34,5 +34,10 @@ routes.post(
     VoteMiddleware.validateCreateVoteReq,
     VoteController.create
 );
+routes.delete(
+    "/vote/:id",
+    VoteMiddleware.validateRemoveVoteReq,
+    VoteController.remove
+);
 
 export = routes;

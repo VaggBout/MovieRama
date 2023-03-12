@@ -27,3 +27,24 @@ export async function create(req: Request, res: Response): Promise<void> {
         res.send({ error: "Something went wrong!" });
     }
 }
+
+export async function remove(req: Request, res: Response) {
+    const user: User = res.locals.user;
+
+    try {
+        const result = await VoteService.removeVote(
+            user.id,
+            Number(req.params.id)
+        );
+        if (result.error) {
+            res.statusCode = 400;
+            res.send({ error: result.error });
+            return;
+        }
+
+        res.send();
+    } catch (error) {
+        res.statusCode = 500;
+        res.send({ error: "Something went wrong!" });
+    }
+}
