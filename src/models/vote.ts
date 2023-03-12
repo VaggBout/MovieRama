@@ -13,11 +13,14 @@ export class Vote {
         this.like = like;
     }
 
-    public static async create(data: VoteDto): Promise<Vote | null> {
+    public static async upsert(data: VoteDto): Promise<Vote | null> {
         const query = `
             INSERT INTO votes
             (movie_id, user_id, "like")
-            VALUES($1, $2, $3);
+            VALUES($1, $2, $3)
+            ON CONFLICT (user_id, movie_id)
+                DO UPDATE SET
+                    "like" = $3
         `;
 
         const params = [data.movieId, data.userId, data.like];
@@ -35,29 +38,24 @@ export class Vote {
         }
     }
 
-    public static async findByUserIdMovieId(
+    public static async removeByMovieIdUserId(
         userId: number,
         movieId: number
-    ): Promise<Vote | null> {
+    ): Promise<boolean> {
         const query = `
-            SELECT "like"
-            FROM votes
+            DELETE FROM votes
             WHERE user_id = $1
-            AND movie_id = $2;
+            AND  movie_id = $2;
         `;
 
         const params = [userId, movieId];
+
         try {
             const result = await getDb().query(query, params);
-            if (result.rowCount === 0) {
-                return null;
-            }
-
-            const rawVote: any = result.rows[0];
-            return new Vote(movieId, userId, rawVote.like);
+            return result.rowCount === 1;
         } catch (error) {
-            logger.error(`Failed to search for vote entry. Error: ${error}`);
-            throw new Error("Failed to search for vote entry");
+            logger.error(`Failed to remove vote entry. Error: ${error}`);
+            throw new Error("Failed to remove vote entry");
         }
     }
 }

@@ -18,18 +18,7 @@ export async function create(data: VoteDto): Promise<OperationResult<Vote>> {
         };
     }
 
-    const existingVote = await Vote.findByUserIdMovieId(
-        data.userId,
-        data.movieId
-    );
-
-    if (existingVote) {
-        return {
-            error: `User with id ${data.userId} has already voted movie with id ${data.movieId}`,
-        };
-    }
-
-    const vote = await Vote.create(data);
+    const vote = await Vote.upsert(data);
     if (!vote) {
         return {
             error: "Failed to create vote",
@@ -37,4 +26,19 @@ export async function create(data: VoteDto): Promise<OperationResult<Vote>> {
     }
 
     return { data: vote };
+}
+
+export async function removeVote(
+    userId: number,
+    movieId: number
+): Promise<OperationResult<void>> {
+    const entry = await Vote.removeByMovieIdUserId(userId, movieId);
+
+    if (!entry) {
+        return {
+            error: "Failed to remove vote entry",
+        };
+    }
+
+    return {};
 }
