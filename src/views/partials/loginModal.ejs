@@ -1,0 +1,45 @@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">
+                    Login
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="container" id="loginForm">
+                    <div class="row">
+                        <div class="col">
+                            <label for="loginEmail" class="form-label float-start fw-bold">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control float-start" id="loginEmail" type="email" name="email" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label for="loginPassword" class="form-label float-start fw-bold">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input id="loginPassword" class="form-control float-start" type="password" required></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span id="loginModalError" class="mh-5"></span>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="login">
+                    Login
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">
+                    Register
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="container" id="registerForm">
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label for="registerName" class="form-label float-start fw-bold">Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input id="registerName" class="form-control float-start" type="name" required></input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="registerEmail" class="form-label float-start fw-bold">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control float-start" id="registerEmail" type="email" name="email" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label for="registerPassword" class="form-label float-start fw-bold">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input id="registerPassword" class="form-control float-start" type="password" required></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span id="registerModalError" class="mh-5"></span>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="register">
+                    Login
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -79,7 +79,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <span id="modalError" class="mh-5"></span>
+                        <span id="newMovieModalError" class="mh-5"></span>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
@@ -90,12 +90,12 @@
                 </div>
             </div>
         </div>
+        <% } else { %>
+        <%- include('partials/loginModal'); %>
+        <%- include('partials/registerModal'); %>
         <% } %>
     </main>
-
-    <% if (locals.user) { %>
     <script src="/static/js/homepage.js"></script>
-    <% } %>
 
     <footer><%- include('partials/footer'); %></footer>
 </body>

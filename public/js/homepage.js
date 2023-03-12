@@ -4,15 +4,84 @@ window.onload = function () {
     if (getCookie("token")) {
         addCreateMovieHandlers();
         addVoteHandlers();
+    } else {
+        addLoginModalHandler();
+        addRegisterModalHandler();
     }
 };
 
-function errorMessage(e) {
-    const error = document.getElementById("modalError");
-    error.innerHTML = `
+function errorMessage(error, id) {
+    const errorElement = document.getElementById(id);
+    errorElement.innerHTML = `
             <span style='color: red;'>
-                ${e}
+                ${error}
             </span>`;
+}
+
+function addLoginModalHandler() {
+    const modal = document.getElementById("loginModal");
+    modal.addEventListener("shown.bs.modal", function () {
+        document.getElementById("loginEmail").focus();
+    });
+
+    document
+        .getElementById("login")
+        .addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            const data = {
+                email: document.getElementById("loginEmail").value,
+                password: document.getElementById("loginPassword").value,
+            };
+
+            try {
+                await axios.post("/login", data);
+                const modalElement = document.getElementById("loginModal");
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                document.getElementById("loginForm").reset();
+                location.reload();
+            } catch (error) {
+                document.getElementById("loginForm").reset();
+                errorMessage(error.response.data.error, "loginModalError");
+            }
+        });
+}
+
+function addRegisterModalHandler() {
+    const modal = document.getElementById("registerModal");
+    modal.addEventListener("shown.bs.modal", function () {
+        document.getElementById("registerName").focus();
+    });
+
+    document
+        .getElementById("register")
+        .addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            const data = {
+                name: document.getElementById("registerName").value,
+                email: document.getElementById("registerEmail").value,
+                password: document.getElementById("registerPassword").value,
+            };
+
+            try {
+                await axios.post("/register", data);
+                const modalElement = document.getElementById("registerModal");
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                document.getElementById("registerForm").reset();
+
+                const loginModal = new bootstrap.Modal(
+                    document.getElementById("loginModal"),
+                    {}
+                );
+                loginModal.show();
+            } catch (error) {
+                document.getElementById("registerForm").reset();
+                errorMessage(error.response.data.error, "registerModalError");
+            }
+        });
 }
 
 function addCreateMovieHandlers() {
@@ -40,11 +109,7 @@ function addCreateMovieHandlers() {
                 document.getElementById("newMovieForm").reset();
             } catch (error) {
                 document.getElementById("newMovieForm").reset();
-                errorMessage(
-                    error.response.data.error
-                        ? error.response.data.error
-                        : "Something went wrong."
-                );
+                errorMessage(error.response.data.error, "newMovieModalError");
             }
         });
 }
