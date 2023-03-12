@@ -35,7 +35,7 @@ function addLoginModalHandler() {
             };
 
             try {
-                await axios.post("/login", data);
+                await axios.post("/api/login", data);
                 const modalElement = document.getElementById("loginModal");
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
@@ -66,7 +66,7 @@ function addRegisterModalHandler() {
             };
 
             try {
-                await axios.post("/register", data);
+                await axios.post("/api/register", data);
                 const modalElement = document.getElementById("registerModal");
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
@@ -102,7 +102,7 @@ function addCreateMovieHandlers() {
             };
 
             try {
-                await axios.post("/movie", data);
+                await axios.post("/api/movie", data);
                 const modalElement = document.getElementById("newMovieModal");
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
@@ -140,7 +140,7 @@ async function voteMovie(movieId, like) {
     };
 
     try {
-        await axios.post("/vote", data);
+        await axios.post("/api/vote", data);
     } catch (error) {
         console.error(error);
     }
@@ -148,7 +148,7 @@ async function voteMovie(movieId, like) {
 
 async function removeVote(movieId) {
     try {
-        await axios.delete(`/vote/${movieId}`);
+        await axios.delete(`/api/vote/${movieId}`);
     } catch (error) {
         console.error(error);
     }

@@ -1,5 +1,5 @@
 import { describe, expect, jest, test } from "@jest/globals";
-import * as MovieController from "../../src/controllers/movie";
+import * as MovieController from "../../src/controllers/api/movie";
 import { Movie } from "../../src/models/movie";
 import * as MovieService from "../../src/services/movie";
 import express from "express";
@@ -38,7 +38,7 @@ describe("Movie controller", () => {
                 }),
             } as unknown as express.Response;
 
-            await MovieController.create(req, res);
+            await MovieController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
 
             mockCreate.mockClear();
@@ -69,7 +69,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.create(req, res);
+            await MovieController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(400);
 
@@ -101,7 +101,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.create(req, res);
+            await MovieController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
 

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { User } from "../models/user";
-import { MovieDto } from "../types/dto";
-import * as MovieService from "../services/movie";
+import { User } from "../../models/user";
+import { MovieDto } from "../../types/dto";
+import * as MovieService from "../../services/movie";
 import { DateTime } from "luxon";
 
-export async function create(req: Request, res: Response): Promise<void> {
+export async function post(req: Request, res: Response): Promise<void> {
     const user: User = res.locals.user;
 
     const movieDto: MovieDto = {

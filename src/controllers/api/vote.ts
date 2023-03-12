@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { VoteDto } from "../types/dto";
-import * as VoteService from "../services/vote";
-import { User } from "../models/user";
+import { VoteDto } from "../../types/dto";
+import * as VoteService from "../../services/vote";
+import { User } from "../../models/user";
 
-export async function create(req: Request, res: Response): Promise<void> {
+export async function post(req: Request, res: Response): Promise<void> {
     const user: User = res.locals.user;
 
     const voteDto: VoteDto = {

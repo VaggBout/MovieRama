@@ -1,43 +1,53 @@
 import * as express from "express";
 
 import * as HomepageController from "./controllers/homepage";
-import * as UserController from "./controllers/user";
-import * as MovieController from "./controllers/movie";
-import * as VoteController from "./controllers/vote";
+
+import * as LoginApiController from "./controllers/api/login";
+import * as MovieApiController from "./controllers/api/movie";
+import * as RegisterApiController from "./controllers/api/register";
+import * as VoteApiController from "./controllers/api/vote";
 
 import * as UserMiddleware from "./middlewares/user";
+import * as RegisterMiddleware from "./middlewares/register";
+import * as LoginMiddleware from "./middlewares/login";
 import * as MovieMiddleware from "./middlewares/movie";
 import * as VoteMiddleware from "./middlewares/vote";
 
 const routes = express.Router();
+const apiRoutes = express.Router();
+
 routes.use(UserMiddleware.populateAuthUser);
-
 routes.get("/", HomepageController.get);
+routes.use("/api", apiRoutes);
 
-routes.get("/register", UserController.getRegister);
-routes.post(
+apiRoutes.post(
     "/register",
-    UserMiddleware.validateRegisterReq,
-    UserController.register
+    RegisterMiddleware.validateRegisterReq,
+    RegisterApiController.post
 );
 
-routes.get("/login", UserController.getLogin);
-routes.post("/login", UserMiddleware.validateLoginReq, UserController.login);
+apiRoutes.post(
+    "/login",
+    LoginMiddleware.validateLoginReq,
+    LoginApiController.post
+);
 
-routes.post(
+apiRoutes.post(
     "/movie",
     MovieMiddleware.validateCreateMovieReq,
-    MovieController.create
+    MovieApiController.post
 );
-routes.post(
+
+apiRoutes.post(
     "/vote",
     VoteMiddleware.validateCreateVoteReq,
-    VoteController.create
+    VoteApiController.post
 );
-routes.delete(
+
+apiRoutes.delete(
     "/vote/:id",
     VoteMiddleware.validateRemoveVoteReq,
-    VoteController.remove
+    VoteApiController.remove
 );
 
 export = routes;
