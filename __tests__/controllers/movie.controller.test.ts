@@ -7,7 +7,7 @@ import { DateTime } from "luxon";
 
 describe("Movie controller", () => {
     describe("create", () => {
-        test("should respond with movie object when create is sucess", async () => {
+        test("should respond with movie object when create is success", async () => {
             const mockCreate = jest
                 .spyOn(MovieService, "create")
                 .mockImplementationOnce(() => {
