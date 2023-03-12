@@ -19,12 +19,12 @@ window.onload = function () {
                 errorMessage(error.response.data.error);
             }
         });
-
-    function errorMessage(e) {
-        const error = document.getElementById("error");
-        error.innerHTML = `
-                    <span style='color: red;'>
-                        ${e}
-                    </span>`;
-    }
 };
+
+function errorMessage(e) {
+    const error = document.getElementById("error");
+    error.innerHTML = `
+                <span style='color: red;'>
+                    ${e}
+                </span>`;
+}

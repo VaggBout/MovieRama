@@ -22,12 +22,12 @@ window.onload = function () {
                 );
             }
         });
-
-    function errorMessage(e) {
-        const error = document.getElementById("error");
-        error.innerHTML = `
-            <span style='color: red;'>
-                ${e}
-            </span>`;
-    }
 };
+
+function errorMessage(e) {
+    const error = document.getElementById("error");
+    error.innerHTML = `
+        <span style='color: red;'>
+            ${e}
+        </span>`;
+}
