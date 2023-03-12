@@ -1,213 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <%- include('partials/head'); %>
-    </head>
-    <body class="container">
-        <header><%- include('partials/header'); %></header>
-        <main class="pt-3">
-            <div class="container">
-                <div class="row justify-content-sm-left">
-                    <div class="col">
-                        <div
-                            class="fw-bold border border-dark border-3 px-3 py-1 bg-secondary bg-opacity-10"
-                        >
-                            Sort by: <a id="likesSort" href="#">Likes</a> |
-                            <a id="hatesSort" href="#">Hates</a> |
-                            <a id="dateSort" href="#">Date</a>
-                        </div>
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body class="container">
+    <header><%- include('partials/header'); %></header>
+    <main class="pt-3">
+        <div class="container">
+            <div class="row justify-content-sm-left">
+                <div class="col">
+                    <div class="fw-bold border border-dark border-3 px-3 py-1 bg-secondary bg-opacity-10">
+                        Sort by: <a id="likesSort" href="#">Likes</a> |
+                        <a id="hatesSort" href="#">Hates</a> |
+                        <a id="dateSort" href="#">Date</a>
                     </div>
                 </div>
             </div>
-            <div class="container pt-3">
-                <div class="row justify-content-between">
-                    <div class="col">
-                        <% if (locals.movies && locals.movies.length > 0) { %>
-                        <div id="moviesList">
-                            <% for(let i=0; i < locals.movies.length; i++) { %>
-                            <div
-                                class="container border border-dark border-3 px-3 py-1 my-2"
-                            >
-                                <div class="row">
-                                    <div class="col fw-bold">
-                                        <h2><%= locals.movies[i].title %></h2>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <p>
-                                            Posted by
-                                            <a href="#"
-                                                ><%= locals.movies[i].userName
-                                                %></a
-                                            >
-                                            <%= locals.movies[i].daysElapsed %>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <p>
-                                            <%= locals.movies[i].description %>
-                                        </p>
-                                    </div>
+        </div>
+        <div class="container pt-3">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <% if (locals.movies && locals.movies.length > 0) { %>
+                    <div id="moviesList">
+                        <% for(let i=0; i < locals.movies.length; i++) { %>
+                        <div class="container border border-dark border-3 px-3 py-1 my-2">
+                            <div class="row">
+                                <div class="col fw-bold">
+                                    <h2><%= locals.movies[i].title %></h2>
                                 </div>
                             </div>
-                            <% } %>
+                            <div class="row">
+                                <div class="col">
+                                    <p>
+                                        Posted by
+                                        <a href="#"><%= locals.movies[i].userName
+                                                %></a>
+                                        <%= locals.movies[i].daysElapsed %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>
+                                        <%= locals.movies[i].description %>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-
-                        <% } else { %>
-                        <div>None!</div>
                         <% } %>
                     </div>
-                    <div class="col">
-                        <div class="float-end">
-                            <% if (locals.user) { %>
-                            <button
-                                type="button"
-                                class="btn btn-lg btn-success"
-                                data-bs-toggle="modal"
-                                data-bs-target="#newMovieModal"
-                            >
-                                New Movie
-                            </button>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <% if (locals.user) { %>
-            <div
-                class="modal fade"
-                id="newMovieModal"
-                tabindex="-1"
-                aria-labelledby="newMovieModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="newMovieModalLabel">
-                                Add new movie
-                            </h5>
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="container" id="newMovieForm">
-                                <div class="row">
-                                    <div class="col">
-                                        <label
-                                            for="newMovieTitle"
-                                            class="form-label float-start fw-bold"
-                                            >Movie Title</label
-                                        >
-                                    </div>
-                                </div>
-                                <div class="row row-cols-auto">
-                                    <div class="col">
-                                        <input
-                                            type="text"
-                                            class="form-control float-start"
-                                            id="newMovieTitle"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col">
-                                        <label
-                                            for="newMovieDescription"
-                                            class="form-label float-start fw-bold"
-                                            >Movie Description</label
-                                        >
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <textarea
-                                            id="newMovieDescription"
-                                            class="form-control"
-                                            rows="5"
-                                            required
-                                        ></textarea>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <span id="modalError" class="mh-5"></span>
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                id="saveNewMovie"
-                            >
-                                Save changes
-                            </button>
-                        </div>
+                    <% } else { %>
+                    <div>None!</div>
+                    <% } %>
+                </div>
+                <div class="col">
+                    <div class="float-end">
+                        <% if (locals.user) { %>
+                        <button type="button" class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#newMovieModal">
+                            New Movie
+                        </button>
+                        <% } %>
                     </div>
                 </div>
             </div>
-            <% } %>
-        </main>
+        </div>
 
         <% if (locals.user) { %>
-        <script>
-            const modal = document.getElementById("newMovieModal");
-            modal.addEventListener("shown.bs.modal", function () {
-                document.getElementById("newMovieTitle").focus();
+        <div class="modal fade" id="newMovieModal" tabindex="-1" aria-labelledby="newMovieModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newMovieModalLabel">
+                            Add new movie
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="container" id="newMovieForm">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="newMovieTitle" class="form-label float-start fw-bold">Movie Title</label>
+                                </div>
+                            </div>
+                            <div class="row row-cols-auto">
+                                <div class="col">
+                                    <input type="text" class="form-control float-start" id="newMovieTitle" required />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label for="newMovieDescription" class="form-label float-start fw-bold">Movie Description</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <textarea id="newMovieDescription" class="form-control" rows="5" required></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <span id="modalError" class="mh-5"></span>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary" id="saveNewMovie">
+                            Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </main>
+
+    <% if (locals.user) { %>
+    <script>
+        const modal = document.getElementById("newMovieModal");
+        modal.addEventListener("shown.bs.modal", function() {
+            document.getElementById("newMovieTitle").focus();
+        });
+
+        document
+            .getElementById("saveNewMovie")
+            .addEventListener("click", async function(event) {
+                event.preventDefault();
+
+                const data = {
+                    title: document.getElementById("newMovieTitle").value,
+                    description: document.getElementById(
+                        "newMovieDescription"
+                    ).value,
+                };
+
+                try {
+                    await axios.post("/movie", data);
+                    const modalElement =
+                        document.getElementById("newMovieModal");
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    modal.hide();
+                } catch (error) {
+                    document.getElementById("newMovieForm").reset();
+                    errorMessage(
+                        error.response.data.error ?
+                        error.response.data.error :
+                        "Something went wrong."
+                    );
+                }
             });
 
-            document
-                .getElementById("saveNewMovie")
-                .addEventListener("click", async function (event) {
-                    event.preventDefault();
-
-                    const data = {
-                        title: document.getElementById("newMovieTitle").value,
-                        description: document.getElementById(
-                            "newMovieDescription"
-                        ).value,
-                    };
-
-                    try {
-                        await axios.post("/movie", data);
-                        const modalElement =
-                            document.getElementById("newMovieModal");
-                        const modal = bootstrap.Modal.getInstance(modalElement);
-                        modal.hide();
-                    } catch (error) {
-                        document.getElementById("newMovieForm").reset();
-                        errorMessage(
-                            error.response.data.error
-                                ? error.response.data.error
-                                : "Something went wrong."
-                        );
-                    }
-                });
-
-            function errorMessage(e) {
-                const error = document.getElementById("modalError");
-                error.innerHTML = `
+        function errorMessage(e) {
+            const error = document.getElementById("modalError");
+            error.innerHTML = `
                     <span style='color: red;'>
                         ${e}
                     </span>`;
-            }
-        </script>
-        <% } %>
+        }
+    </script>
+    <% } %>
 
-        <footer><%- include('partials/footer'); %></footer>
-    </body>
+    <footer><%- include('partials/footer'); %></footer>
+</body>
+
 </html>
