@@ -2,8 +2,8 @@
 
 window.onload = function () {
     if (getCookie("token")) {
-        createMovieHandlers();
-        likeHandlers();
+        addCreateMovieHandlers();
+        addVoteHandlers();
     }
 };
 
@@ -15,7 +15,7 @@ function errorMessage(e) {
             </span>`;
 }
 
-function createMovieHandlers() {
+function addCreateMovieHandlers() {
     const modal = document.getElementById("newMovieModal");
     modal.addEventListener("shown.bs.modal", function () {
         document.getElementById("newMovieTitle").focus();
@@ -49,26 +49,23 @@ function createMovieHandlers() {
         });
 }
 
-function likeHandlers() {
-    const actions = ["like", "hate", "unlike", "unhate"];
-    document.addEventListener("click", async function (event) {
-        const eventId = event.target.id;
-        const isValidEvent = actions.some((action) =>
-            eventId.startsWith(action)
-        );
-        if (!isValidEvent) {
-            return;
-        }
-
-        const [action, movieId] = eventId.split("_");
-        if (action === actions[0] || action === actions[1]) {
-            await voteMovie(movieId, action === actions[0]);
-        } else {
-            await removeVote(movieId);
-        }
-        console.log("done");
-        location.reload();
+function addVoteHandlers() {
+    const elements = document.getElementsByClassName("votableElements");
+    Array.from(elements).forEach(function (element) {
+        element.addEventListener("click", voteHandler);
     });
+}
+
+async function voteHandler(event) {
+    const action = event.target.dataset.action;
+    const movieId = event.target.dataset.movie;
+
+    if (action === "like" || action === "hate") {
+        await voteMovie(movieId, action === "like");
+    } else {
+        await removeVote(movieId);
+    }
+    location.reload();
 }
 
 async function voteMovie(movieId, like) {

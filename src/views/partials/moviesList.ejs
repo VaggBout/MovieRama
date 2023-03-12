@@ -24,7 +24,7 @@
             <div class="col">
                 <% if (locals.user && !(locals.user.id === locals.movie.userId) && !locals.movie.vote) { %>
                 <p class="float-start">
-                    <a href="#" id="like_<%=locals.movie.id%>"><%= locals.movie.likes %>
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="like"><%= locals.movie.likes %>
                         likes
                     </a>
                 </p>
@@ -36,7 +36,7 @@
                 <p class="float-start">&nbsp;|&nbsp;</p>
                 <% if (locals.user && !(locals.user.id === locals.movie.userId) && (locals.movie.vote || locals.movie.vote === null)) { %>
                 <p class="float-start">
-                    <a href="#" id="hate_<%=locals.movie.id%>"><%= locals.movie.hates %>
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="hate"><%= locals.movie.hates %>
                         hates
                     </a>
                 </p>
@@ -49,11 +49,17 @@
             <div class="col">
                 <% if (locals.user && locals.movie.vote) { %>
                 <p class="float-end">
-                    You like this movie &nbsp;|&nbsp; <a href="#" id="unlike_<%=locals.movie.id%>">Unlike</a>
+                    You like this movie &nbsp;|&nbsp;
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="unlike">
+                        Unlike
+                    </a>
                 </p>
                 <% } else if (locals.user && locals.movie.vote === false) { %>
                 <p class="float-end">
-                    You hate this movie &nbsp;|&nbsp; <a href="#" id="unhate_<%=locals.movie.id%>">Unhate</a>
+                    You hate this movie &nbsp;|&nbsp;
+                    <a href="javascript:void(0)" class="votableElements" data-movie="<%=locals.movie.id%>" data-action="unhate">
+                        Unhate
+                    </a>
                 </p>
                 <% } %>
             </div>
