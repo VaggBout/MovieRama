@@ -27,7 +27,9 @@ exports.up = async function (db) {
                 REFERENCES users (id),
             CONSTRAINT fk_movies_votes
                 FOREIGN KEY (movie_id)
-                REFERENCES movies (id)
+                REFERENCES movies (id),
+            CONSTRAINT uniq_movie_id_user_id
+                UNIQUE (movie_id, user_id)
         );`
         )
         .catch((err) => console.log(err));
@@ -46,6 +48,12 @@ exports.down = async function (db) {
             ALTER TABLE votes
                 DROP CONSTRAINT fk_movies_votes;
             `)
+        )
+        .then(() =>
+            db.runSql(`
+            ALTER TABLE votes
+                DROP CONSTRAINT uniq_movie_id_user_id;
+        `)
         )
         .then(() => db.dropTable("votes"))
         .catch((err) => console.log(err));
