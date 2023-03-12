@@ -19,6 +19,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/", routes);
 
+app.use("/static", express.static("public"));
+
 app.listen(port, () => {
     init().then(() =>
         logger.info(`Server is running at http://localhost:${port}`)

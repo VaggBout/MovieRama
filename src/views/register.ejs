@@ -23,36 +23,7 @@
         </div>
     </main>
 
-    <script>
-        document
-            .getElementById("registerForm")
-            .addEventListener("submit", async function(event) {
-                event.preventDefault();
-
-                const data = {
-                    name: document.getElementById("name").value,
-                    email: document.getElementById("email").value,
-                    password: document.getElementById("password").value,
-                };
-
-                await axios
-                    .post("/register", data)
-                    .then(() => {
-                        window.location.href = "/";
-                    })
-                    .catch((error) => {
-                        errorMessage(error.response.data.error);
-                    });
-            });
-
-        function errorMessage(e) {
-            const error = document.getElementById("error");
-            error.innerHTML = `
-                    <span style='color: red;'>
-                        ${e}
-                    </span>`;
-        }
-    </script>
+    <script src="/static/js/register.js"></script>
 
     <footer><%- include('partials/footer'); %></footer>
 </body>

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rm -rf build/",
-    "postbuild": "cp -r .env src/views dist/src/",
+    "postbuild": "cp -r .env src/views public dist/src/",
     "start": "npm run build && node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
     "test": "jest --coverage --detectOpenHandles"
