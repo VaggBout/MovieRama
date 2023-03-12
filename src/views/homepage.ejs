@@ -45,51 +45,7 @@
         </div>
 
         <% if (locals.user) { %>
-        <div class="modal fade" id="newMovieModal" tabindex="-1" aria-labelledby="newMovieModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="newMovieModalLabel">
-                            Add new movie
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="container" id="newMovieForm">
-                            <div class="row">
-                                <div class="col">
-                                    <label for="newMovieTitle" class="form-label float-start fw-bold">Movie Title</label>
-                                </div>
-                            </div>
-                            <div class="row row-cols-auto">
-                                <div class="col">
-                                    <input type="text" class="form-control float-start" id="newMovieTitle" required />
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col">
-                                    <label for="newMovieDescription" class="form-label float-start fw-bold">Movie Description</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <textarea id="newMovieDescription" class="form-control" rows="5" required></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <span id="newMovieModalError" class="mh-5"></span>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="button" class="btn btn-primary" id="saveNewMovie">
-                            Save changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <%- include('partials/newMovieModal'); %>
         <% } else { %>
         <%- include('partials/loginModal'); %>
         <%- include('partials/registerModal'); %>
