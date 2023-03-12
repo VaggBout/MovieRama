@@ -177,17 +177,12 @@ export class Movie {
         userId: number
     ): Promise<MoviesPageDto> {
         const query = `
-            WITH user_votes AS (
-                SELECT "like", movie_id
-                FROM votes
-                WHERE user_id = $1
-            )
             SELECT 
                 mv.id, 
                 mv.title, 
                 mv.description, 
                 mv.date, 
-                mv.user_id, 
+                mv.user_id,
                 u.name,
                 COUNT(CASE WHEN v."like" IS TRUE THEN 1 END) AS likes,
                 COUNT(CASE WHEN v."like" IS FALSE THEN 1 END) AS hates,
@@ -197,13 +192,14 @@ export class Movie {
                 ON u.id = mv.user_id
             LEFT JOIN votes v
                 ON mv.id = v.movie_id
-            LEFT JOIN user_votes uv
-                ON uv.movie_id = mv.id
+            LEFT JOIN votes uv
+                ON mv.id = uv.movie_id
+                AND uv.user_id = $1
             GROUP BY mv.id, u.name, uv."like"
             ORDER BY mv.date ${sort}
             LIMIT ${limit}
             OFFSET ${offset};
-        `;
+    `;
 
         const params = [userId];
 
