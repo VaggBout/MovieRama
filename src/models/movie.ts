@@ -82,6 +82,36 @@ export class Movie {
         }
     }
 
+    public static async findById(id: number): Promise<Movie | null> {
+        const query = `
+            SELECT title, description, date, user_id
+            FROM movies
+            WHERE id = $1;
+        `;
+
+        const params = [id];
+        try {
+            const result = await getDb().query(query, params);
+            if (result.rowCount === 0) {
+                return null;
+            }
+
+            const rawMovie: any = result.rows[0];
+            return new Movie(
+                id,
+                rawMovie.title,
+                rawMovie.description,
+                rawMovie.user_id,
+                DateTime.fromJSDate(rawMovie.date)
+            );
+        } catch (error) {
+            logger.error(
+                `Failed to search for movie entry by title. Error: ${error}`
+            );
+            throw new Error("Failed to search for movie entry");
+        }
+    }
+
     public static async getMoviesPage(
         sort: "DESC" | "ASC",
         limit: number,
