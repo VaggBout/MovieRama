@@ -22,6 +22,12 @@ interface MovieEntryDto {
     userName: string;
 }
 
+interface VoteDto {
+    userId: number;
+    movieId: number;
+    like: boolean;
+}
+
 type MoviesPageDto = Array<MovieEntryDto>;
 
-export { UserDto, MovieDto, MovieEntryDto, MoviesPageDto };
+export { UserDto, MovieDto, MovieEntryDto, MoviesPageDto, VoteDto };
