@@ -263,13 +263,23 @@ export class Movie {
         }
     }
 
-    public static async getMoviesCount(): Promise<number> {
-        const query = `
+    public static async getMoviesCount(
+        creatorId: number | null
+    ): Promise<number> {
+        let query = `
             SELECT COUNT(id) AS count
-            FROM movies;
+            FROM movies
         `;
+        const params = [];
+        if (creatorId) {
+            query += `
+                WHERE user_id = $1
+            `;
+            params.push(creatorId);
+        }
+
         try {
-            const result = await getDb().query(query, []);
+            const result = await getDb().query(query, params);
             if (result.rowCount === 0) {
                 return 0;
             }
