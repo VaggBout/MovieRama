@@ -9,7 +9,7 @@ import logger from "../utils/logger";
  * * User must be logged in
  * * Request is valid
  */
-export async function validateCreateVoteReq(
+export function validateCreateVoteReq(
     req: Request,
     res: Response,
     next: NextFunction
@@ -50,7 +50,7 @@ export async function validateCreateVoteReq(
  * * User must be logged in
  * * Request params contain valid id
  */
-export async function validateRemoveVoteReq(
+export function validateRemoveVoteReq(
     req: Request,
     res: Response,
     next: NextFunction
