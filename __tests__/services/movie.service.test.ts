@@ -1,4 +1,4 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { Movie } from "../../src/models/movie";
 import { MovieDto } from "../../src/types/dto";
 import * as MovieService from "../../src/services/movie";
@@ -100,6 +100,99 @@ describe("Movie service", () => {
 
             mockFindByTitle.mockClear();
             mockCreate.mockClear();
+        });
+    });
+
+    describe("Get movies page", () => {
+        beforeEach(() => {
+            jest.restoreAllMocks();
+            jest.clearAllMocks();
+        });
+
+        test("should return movies list with user vote when userId is provided", async () => {
+            const mockGetMoviesPageLoggedIn = jest
+                .spyOn(Movie, "getMoviesPageLoggedIn")
+                .mockImplementationOnce(() => {
+                    return Promise.resolve([
+                        {
+                            id: 1,
+                            title: "test",
+                            description: "test",
+                            daysElapsed: "test",
+                            userId: 1,
+                            userName: "test",
+                            likes: 1,
+                            hates: 9,
+                            vote: true,
+                        },
+                    ]);
+                });
+
+            const mockGetMoviesPage = jest
+                .spyOn(Movie, "getMoviesPage")
+                .mockImplementationOnce(() => {
+                    throw new Error("Should not be called");
+                });
+
+            const result = await MovieService.getMoviesPage(
+                "DESC",
+                1,
+                0,
+                "date",
+                1
+            );
+            expect(result.error).toBeUndefined();
+            expect(result.data).toBeDefined();
+            expect(result.data?.length).toBe(1);
+
+            expect(mockGetMoviesPageLoggedIn).toHaveBeenCalledTimes(1);
+            expect(mockGetMoviesPage).not.toHaveBeenCalled();
+
+            mockGetMoviesPageLoggedIn.mockClear();
+            mockGetMoviesPage.mockClear();
+        });
+
+        test("should return movies list without user vote when userId is null", async () => {
+            const mockGetMoviesPageLoggedIn = jest
+                .spyOn(Movie, "getMoviesPageLoggedIn")
+                .mockImplementationOnce(() => {
+                    throw new Error("Should not be called");
+                });
+
+            const mockGetMoviesPage = jest
+                .spyOn(Movie, "getMoviesPage")
+                .mockImplementationOnce(() => {
+                    return Promise.resolve([
+                        {
+                            id: 1,
+                            title: "test",
+                            description: "test",
+                            daysElapsed: "test",
+                            userId: 1,
+                            userName: "test",
+                            likes: 1,
+                            hates: 9,
+                            vote: null,
+                        },
+                    ]);
+                });
+
+            const result = await MovieService.getMoviesPage(
+                "DESC",
+                1,
+                0,
+                "date",
+                null
+            );
+            expect(result.error).toBeUndefined();
+            expect(result.data).toBeDefined();
+            expect(result.data?.length).toBe(1);
+
+            expect(mockGetMoviesPageLoggedIn).not.toHaveBeenCalled();
+            expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
+
+            mockGetMoviesPageLoggedIn.mockClear();
+            mockGetMoviesPage.mockClear();
         });
     });
 });

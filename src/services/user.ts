@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import { OperationResult } from "../types/generic";
+import { OperationResult } from "../types/common";
 import * as bcrypt from "bcrypt";
 import { UserDto } from "../types/dto";
 import logger from "../utils/logger";

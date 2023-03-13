@@ -1,6 +1,6 @@
 import { Vote } from "../models/vote";
 import { Movie } from "../models/movie";
-import { OperationResult } from "../types/generic";
+import { OperationResult } from "../types/common";
 import { VoteDto } from "../types/dto";
 
 export async function create(data: VoteDto): Promise<OperationResult<Vote>> {

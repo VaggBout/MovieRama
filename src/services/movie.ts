@@ -1,5 +1,5 @@
 import { Movie } from "../models/movie";
-import { OperationResult } from "../types/generic";
+import { OperationResult } from "../types/common";
 import { MovieDto, MoviesPageDto } from "../types/dto";
 
 export async function create(data: MovieDto): Promise<OperationResult<Movie>> {
@@ -22,17 +22,24 @@ export async function create(data: MovieDto): Promise<OperationResult<Movie>> {
 }
 
 export async function getMoviesPage(
-    sort: "DESC" | "ASC" = "DESC",
-    limit: number = 5,
-    offset: number = 0,
-    userId: number | null = null
+    sort: "DESC" | "ASC",
+    limit: number,
+    offset: number,
+    order: "date" | "likes" | "hates",
+    userId: number | null
 ): Promise<OperationResult<MoviesPageDto>> {
     let data: MoviesPageDto;
 
     if (userId) {
-        data = await Movie.getMoviesPageLoggedIn(sort, limit, offset, userId);
+        data = await Movie.getMoviesPageLoggedIn(
+            sort,
+            limit,
+            offset,
+            userId,
+            order
+        );
     } else {
-        data = await Movie.getMoviesPage(sort, limit, offset);
+        data = await Movie.getMoviesPage(sort, limit, offset, order);
     }
 
     return {

@@ -115,7 +115,8 @@ export class Movie {
     public static async getMoviesPage(
         sort: "DESC" | "ASC",
         limit: number,
-        offset: number
+        offset: number,
+        order: "date" | "likes" | "hates"
     ): Promise<MoviesPageDto> {
         const query = `
             SELECT 
@@ -133,7 +134,7 @@ export class Movie {
             LEFT JOIN votes v
                 ON mv.id = v.movie_id
             GROUP BY mv.id, u.name
-            ORDER BY mv.date ${sort}
+            ORDER BY "${order}" ${sort}
             LIMIT ${limit}
             OFFSET ${offset};
         `;
@@ -174,7 +175,8 @@ export class Movie {
         sort: "DESC" | "ASC",
         limit: number,
         offset: number,
-        userId: number
+        userId: number,
+        order: "date" | "likes" | "hates"
     ): Promise<MoviesPageDto> {
         const query = `
             SELECT 
@@ -196,7 +198,7 @@ export class Movie {
                 ON mv.id = uv.movie_id
                 AND uv.user_id = $1
             GROUP BY mv.id, u.name, uv."like"
-            ORDER BY mv.date ${sort}
+            ORDER BY "${order}" ${sort}
             LIMIT ${limit}
             OFFSET ${offset};
     `;
