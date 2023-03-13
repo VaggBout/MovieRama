@@ -65,4 +65,114 @@ describe("Movie middleware", () => {
             expect(next).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe("Validate get movies api request middleware", () => {
+        test("should respond with 400 when params contain at least one invalid value", () => {
+            const next = jest.fn();
+            const req = {
+                query: {
+                    order: "invalid",
+                    sort: "DESC",
+                    page: 1,
+                    limit: 5,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                statusCode: 0,
+                send: jest.fn(),
+            } as unknown as express.Response;
+
+            MovieMiddleware.validateApiMoviesReq(req, res, next);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(res.statusCode).toBe(400);
+        });
+
+        test("should invoke next when request has no query parameter", () => {
+            const next = jest.fn();
+            const req = {
+                query: {},
+            } as unknown as express.Request;
+
+            const res = {
+                statusCode: 0,
+            } as unknown as express.Response;
+
+            MovieMiddleware.validateApiMoviesReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+        });
+
+        test("should invoke next when request has valid query parameters", () => {
+            const next = jest.fn();
+            const req = {
+                query: {
+                    order: "date",
+                    sort: "DESC",
+                    page: 1,
+                    limit: 5,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                statusCode: 0,
+            } as unknown as express.Response;
+
+            MovieMiddleware.validateApiMoviesReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+        });
+
+        test("should invoke next when request contains irrelevant query parameters", () => {
+            const next = jest.fn();
+            const req = {
+                query: {
+                    test: "test",
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                statusCode: 0,
+            } as unknown as express.Response;
+
+            MovieMiddleware.validateApiMoviesReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("Validate render movies request middleware", () => {
+        test("should remove parameter and invoke next when params contain at least one invalid value", () => {
+            const next = jest.fn();
+            const req = {
+                query: {
+                    order: "invalid",
+                    sort: "DESC",
+                    page: 1,
+                    limit: 5,
+                },
+            } as unknown as express.Request;
+
+            const res = {} as unknown as express.Response;
+
+            MovieMiddleware.validateRenderMoviesReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+            expect(Object.keys(req.query).length).toBe(0);
+        });
+
+        test("should invoke next when params are valid", () => {
+            const next = jest.fn();
+            const req = {
+                query: {
+                    order: "date",
+                    sort: "DESC",
+                    page: 1,
+                    limit: 5,
+                },
+            } as unknown as express.Request;
+
+            const res = {} as unknown as express.Response;
+
+            MovieMiddleware.validateRenderMoviesReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+            expect(Object.keys(req.query).length).toBe(4);
+        });
+    });
 });
