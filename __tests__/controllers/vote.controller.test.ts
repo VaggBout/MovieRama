@@ -1,10 +1,15 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import * as VoteController from "../../src/controllers/api/vote";
 import { Vote } from "../../src/models/vote";
 import * as VoteService from "../../src/services/vote";
 import express from "express";
 
 describe("Vote controller", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     describe("create", () => {
         test("should respond with vote object when create is success", async () => {
             const mockCreate = jest
@@ -33,8 +38,6 @@ describe("Vote controller", () => {
 
             await VoteController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
-
-            mockCreate.mockClear();
         });
 
         test("should respond with 400 when service returns error", async () => {
@@ -65,8 +68,6 @@ describe("Vote controller", () => {
             await VoteController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(400);
-
-            mockCreate.mockClear();
         });
 
         test("should respond with 500 when service throws error", async () => {
@@ -97,8 +98,97 @@ describe("Vote controller", () => {
             await VoteController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
+        });
+    });
 
-            mockCreate.mockClear();
+    describe("remove", () => {
+        test("should respond ok when vote is deleted", async () => {
+            const mockRemoveVote = jest
+                .spyOn(VoteService, "removeVote")
+                .mockImplementationOnce(() => Promise.resolve({}));
+
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                send: jest.fn(),
+                locals: {
+                    user: {
+                        id: 1,
+                    },
+                },
+            } as unknown as express.Response;
+
+            await VoteController.remove(req, res);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(mockRemoveVote).toHaveBeenCalledTimes(1);
+        });
+
+        test("should respond 400 when vote service returns error", async () => {
+            const mockRemoveVote = jest
+                .spyOn(VoteService, "removeVote")
+                .mockImplementationOnce(() =>
+                    Promise.resolve({
+                        error: "test-error",
+                    })
+                );
+
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                send: jest.fn(),
+                locals: {
+                    user: {
+                        id: 1,
+                    },
+                },
+                statusCode: 0,
+            } as unknown as express.Response;
+
+            await VoteController.remove(req, res);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(res.send).toHaveBeenCalledWith({ error: "test-error" });
+            expect(mockRemoveVote).toHaveBeenCalledTimes(1);
+            expect(res.statusCode).toBe(400);
+        });
+
+        test("should respond 400 when vote service throws error", async () => {
+            const mockRemoveVote = jest
+                .spyOn(VoteService, "removeVote")
+                .mockImplementationOnce(() => {
+                    throw new Error("test-error");
+                });
+
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                send: jest.fn(),
+                locals: {
+                    user: {
+                        id: 1,
+                    },
+                },
+                statusCode: 0,
+            } as unknown as express.Response;
+
+            await VoteController.remove(req, res);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(res.send).toHaveBeenCalledWith({
+                error: "Something went wrong!",
+            });
+            expect(mockRemoveVote).toHaveBeenCalledTimes(1);
+            expect(res.statusCode).toBe(500);
         });
     });
 });

@@ -32,10 +32,7 @@ export async function remove(req: Request, res: Response) {
     const user: User = res.locals.user;
 
     try {
-        const result = await VoteService.removeVote(
-            user.id,
-            Number(req.params.id)
-        );
+        const result = await VoteService.removeVote(user.id, +req.params.id);
         if (result.error) {
             res.statusCode = 400;
             res.send({ error: result.error });
