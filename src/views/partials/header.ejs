@@ -5,9 +5,18 @@
         </div>
         <div class="col">
             <% if (locals.user) { %>
-            <h5 class="pt-2 float-end">
-                Welcome back <a href="/"><%= user.name %></a>
-            </h5>
+            <div class="row">
+                <div class="col">
+                    <h5 class="pt-2 float-end">
+                        Welcome back <a href="/"><%= user.name %></a>
+                    </h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="float-end">Want to <a href="javascript:void(0)" id="logout">logout</a>?</p>
+                </div>
+            </div>
             <% } else { %>
             <h5 class="pt-2 float-end">
                 <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#loginModal">

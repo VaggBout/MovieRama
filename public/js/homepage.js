@@ -4,6 +4,7 @@ window.onload = function () {
     if (getCookie("token")) {
         addCreateMovieHandlers();
         addVoteHandlers();
+        addLogoutEventHandler();
     } else {
         addLoginModalHandler();
         addRegisterModalHandler();
@@ -17,6 +18,19 @@ function errorMessage(error, id) {
             <span style='color: red;'>
                 ${error}
             </span>`;
+}
+
+function addLogoutEventHandler() {
+    const logout = document.getElementById("logout");
+    logout.addEventListener("click", function () {
+        if (!getCookie("token")) {
+            return;
+        }
+
+        document.cookie =
+            "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        location.reload();
+    });
 }
 
 function addLoginModalHandler() {
