@@ -29,7 +29,7 @@ export async function getMoviesPage(
     userId: number | null,
     creatorId: number | null
 ): Promise<OperationResult<MoviesPageDto>> {
-    const totalMoviesPromise = Movie.getMoviesCount();
+    const totalMoviesPromise = Movie.getMoviesCount(creatorId);
     let moviesPagePromise: Promise<Array<MovieEntryDto>>;
 
     if (userId) {
