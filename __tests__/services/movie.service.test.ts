@@ -134,6 +134,10 @@ describe("Movie service", () => {
                     throw new Error("Should not be called");
                 });
 
+            const mockGetMoviesCount = jest
+                .spyOn(Movie, "getMoviesCount")
+                .mockImplementationOnce(() => Promise.resolve(1));
+
             const result = await MovieService.getMoviesPage(
                 "DESC",
                 1,
@@ -143,13 +147,12 @@ describe("Movie service", () => {
             );
             expect(result.error).toBeUndefined();
             expect(result.data).toBeDefined();
-            expect(result.data?.length).toBe(1);
+            expect(result.data?.totalMovies).toBe(1);
+            expect(result.data?.movies.length).toBe(1);
 
             expect(mockGetMoviesPageLoggedIn).toHaveBeenCalledTimes(1);
+            expect(mockGetMoviesCount).toHaveBeenCalledTimes(1);
             expect(mockGetMoviesPage).not.toHaveBeenCalled();
-
-            mockGetMoviesPageLoggedIn.mockClear();
-            mockGetMoviesPage.mockClear();
         });
 
         test("should return movies list without user vote when userId is null", async () => {
@@ -177,6 +180,10 @@ describe("Movie service", () => {
                     ]);
                 });
 
+            const mockGetMoviesCount = jest
+                .spyOn(Movie, "getMoviesCount")
+                .mockImplementationOnce(() => Promise.resolve(1));
+
             const result = await MovieService.getMoviesPage(
                 "DESC",
                 1,
@@ -185,14 +192,12 @@ describe("Movie service", () => {
                 null
             );
             expect(result.error).toBeUndefined();
-            expect(result.data).toBeDefined();
-            expect(result.data?.length).toBe(1);
+            expect(result.data?.totalMovies).toBe(1);
+            expect(result.data?.movies.length).toBe(1);
 
             expect(mockGetMoviesPageLoggedIn).not.toHaveBeenCalled();
             expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
-
-            mockGetMoviesPageLoggedIn.mockClear();
-            mockGetMoviesPage.mockClear();
+            expect(mockGetMoviesCount).toHaveBeenCalledTimes(1);
         });
     });
 });

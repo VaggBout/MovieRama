@@ -1,6 +1,6 @@
 import { Movie } from "../models/movie";
 import { OperationResult } from "../types/common";
-import { MovieDto, MoviesPageDto } from "../types/dto";
+import { MovieDto, MovieEntryDto, MoviesPageDto } from "../types/dto";
 
 export async function create(data: MovieDto): Promise<OperationResult<Movie>> {
     const existingMovie = await Movie.findByTitle(data.title);
@@ -28,10 +28,11 @@ export async function getMoviesPage(
     order: "date" | "likes" | "hates",
     userId: number | null
 ): Promise<OperationResult<MoviesPageDto>> {
-    let data: MoviesPageDto;
+    const totalMoviesPromise = Movie.getMoviesCount();
+    let moviesPagePromise: Promise<Array<MovieEntryDto>>;
 
     if (userId) {
-        data = await Movie.getMoviesPageLoggedIn(
+        moviesPagePromise = Movie.getMoviesPageLoggedIn(
             sort,
             limit,
             offset,
@@ -39,10 +40,18 @@ export async function getMoviesPage(
             order
         );
     } else {
-        data = await Movie.getMoviesPage(sort, limit, offset, order);
+        moviesPagePromise = Movie.getMoviesPage(sort, limit, offset, order);
     }
 
+    const [totalMovies, movies] = await Promise.all([
+        totalMoviesPromise,
+        moviesPagePromise,
+    ]);
+
     return {
-        data,
+        data: {
+            totalMovies,
+            movies,
+        },
     };
 }

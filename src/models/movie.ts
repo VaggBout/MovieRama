@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { MovieDto, MoviesPageDto } from "../types/dto";
+import { MovieDto, MovieEntryDto } from "../types/dto";
 import logger from "../utils/logger";
 import { getDb } from "./adapter/postgresAdapter";
 
@@ -117,7 +117,7 @@ export class Movie {
         limit: number,
         offset: number,
         order: "date" | "likes" | "hates"
-    ): Promise<MoviesPageDto> {
+    ): Promise<Array<MovieEntryDto>> {
         const query = `
             SELECT 
                 mv.id, 
@@ -177,7 +177,7 @@ export class Movie {
         offset: number,
         userId: number,
         order: "date" | "likes" | "hates"
-    ): Promise<MoviesPageDto> {
+    ): Promise<Array<MovieEntryDto>> {
         const query = `
             SELECT 
                 mv.id, 
@@ -234,6 +234,24 @@ export class Movie {
         } catch (error) {
             logger.error(`Failed to fetch movies page. Error: ${error}`);
             throw new Error("Failed to fetch movies page");
+        }
+    }
+
+    public static async getMoviesCount(): Promise<number> {
+        const query = `
+            SELECT COUNT(id) AS count
+            FROM movies;
+        `;
+        try {
+            const result = await getDb().query(query, []);
+            if (result.rowCount === 0) {
+                return 0;
+            }
+
+            return result.rows[0].count;
+        } catch (error) {
+            logger.error(`Failed to fetch movies count. Error: ${error}`);
+            throw new Error("Failed to fetch movies count");
         }
     }
 }

@@ -31,6 +31,9 @@ interface VoteDto {
     like: boolean;
 }
 
-type MoviesPageDto = Array<MovieEntryDto>;
+interface MoviesPageDto {
+    movies: Array<MovieEntryDto>;
+    totalMovies: number;
+}
 
 export { UserDto, MovieDto, MovieEntryDto, MoviesPageDto, VoteDto };
