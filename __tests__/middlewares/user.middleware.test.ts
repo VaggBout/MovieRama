@@ -1,10 +1,15 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import * as UserMiddleware from "../../src/middlewares/user";
 import * as UserService from "../../src/services/user";
 import { User } from "../../src/models/user";
 import express from "express";
 
 describe("User middlewares", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     describe("Populate authenticated user", () => {
         test("Should invoke next when token is missing", async () => {
             const next = jest.fn();
@@ -67,9 +72,41 @@ describe("User middlewares", () => {
             expect(next).toHaveBeenCalled();
             expect(mockFindById).toHaveBeenCalledTimes(1);
             expect(mockValidateToken).toHaveBeenCalledTimes(1);
+        });
+    });
 
-            mockFindById.mockClear();
-            mockValidateToken.mockClear();
+    describe("Validate user id parameter", () => {
+        test("invokes next on valid id", () => {
+            const next = jest.fn();
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+            const res = {
+                locals: {},
+            } as express.Response;
+
+            UserMiddleware.validateUserIdParam(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+        });
+
+        test("redirects to 404 when user id is invalid", () => {
+            const next = jest.fn();
+            const req = {
+                params: {
+                    id: "invalid-id",
+                },
+            } as unknown as express.Request;
+            const res = {
+                locals: {},
+                redirect: jest.fn(),
+            } as unknown as express.Response;
+
+            UserMiddleware.validateUserIdParam(req, res, next);
+            expect(res.redirect).toHaveBeenCalledTimes(1);
+            expect(res.redirect).toHaveBeenCalledWith("/404");
+            expect(next).not.toHaveBeenCalled();
         });
     });
 });

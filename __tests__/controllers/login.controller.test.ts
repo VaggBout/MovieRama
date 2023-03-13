@@ -1,10 +1,15 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import * as UserService from "../../src/services/user";
 import express from "express";
 import { User } from "../../src/models/user";
 import * as LoginApiController from "../../src/controllers/api/login";
 
 describe("login", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     test("should add cookie when login is success", async () => {
         const mockAuth = jest
             .spyOn(UserService, "auth")
@@ -32,8 +37,6 @@ describe("login", () => {
 
         await LoginApiController.post(req, res);
         expect(mockAuth).toHaveBeenCalledTimes(1);
-
-        mockAuth.mockClear();
     });
 
     test("should respond with error when login is failed", async () => {
@@ -63,7 +66,6 @@ describe("login", () => {
         await LoginApiController.post(req, res);
         expect(mockAuth).toHaveBeenCalledTimes(1);
         expect(res.statusCode).toBe(400);
-        mockAuth.mockClear();
     });
 
     test("should respond with error 500 when service throws", async () => {
@@ -93,6 +95,5 @@ describe("login", () => {
         await LoginApiController.post(req, res);
         expect(mockAuth).toHaveBeenCalledTimes(1);
         expect(res.statusCode).toBe(500);
-        mockAuth.mockClear();
     });
 });

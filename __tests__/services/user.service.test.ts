@@ -1,10 +1,15 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { User } from "../../src/models/user";
 import { UserDto } from "../../src/types/dto";
 import * as UserService from "../../src/services/user";
 import * as bcrypt from "bcrypt";
 
 describe("User service", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     describe("register", () => {
         test("should return user when user is written to DB", async () => {
             const mockFindByEmail = jest
@@ -37,9 +42,6 @@ describe("User service", () => {
 
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
             expect(mockCreate).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
-            mockCreate.mockClear();
         });
 
         test("should return error when provided email already exists", async () => {
@@ -67,8 +69,6 @@ describe("User service", () => {
                 "User with email test@email.com already exists"
             );
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
         });
 
         test("should return error when user fails to be saved on DB", async () => {
@@ -92,9 +92,6 @@ describe("User service", () => {
 
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
             expect(mockCreate).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
-            mockCreate.mockClear();
         });
     });
 
@@ -122,8 +119,6 @@ describe("User service", () => {
             expect(result.data).toBeDefined();
             expect(result.data?.email).toBe("test@email.com");
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
         });
 
         test("should return error when user does not exist", async () => {
@@ -140,8 +135,6 @@ describe("User service", () => {
             expect(result.error).toBe("Invalid credentials");
 
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
         });
 
         test("should return error when password hash does not match", async () => {
@@ -167,8 +160,6 @@ describe("User service", () => {
             expect(result.error).toBe("Invalid credentials");
 
             expect(mockFindByEmail).toHaveBeenCalledTimes(1);
-
-            mockFindByEmail.mockClear();
         });
     });
 

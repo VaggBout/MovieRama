@@ -1,10 +1,15 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import * as RegisterApiController from "../../src/controllers/api/register";
 import { User } from "../../src/models/user";
 import * as UserService from "../../src/services/user";
 import express from "express";
 
 describe("register", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     test("should respond with user object when register is successful", async () => {
         const mockRegister = jest
             .spyOn(UserService, "register")
@@ -29,8 +34,6 @@ describe("register", () => {
 
         await RegisterApiController.post(req, res);
         expect(mockRegister).toHaveBeenCalledTimes(1);
-
-        mockRegister.mockClear();
     });
 
     test("should respond with error when registration fails", async () => {
@@ -57,8 +60,6 @@ describe("register", () => {
         await RegisterApiController.post(req, res);
         expect(mockRegister).toHaveBeenCalledTimes(1);
         expect(res.statusCode).toBe(400);
-
-        mockRegister.mockClear();
     });
 
     test("should respond with 500 error when service throws", async () => {
@@ -85,7 +86,5 @@ describe("register", () => {
         await RegisterApiController.post(req, res);
         expect(mockRegister).toHaveBeenCalledTimes(1);
         expect(res.statusCode).toBe(500);
-
-        mockRegister.mockClear();
     });
 });

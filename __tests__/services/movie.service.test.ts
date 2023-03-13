@@ -5,6 +5,11 @@ import * as MovieService from "../../src/services/movie";
 import { DateTime } from "luxon";
 
 describe("Movie service", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+    });
+
     describe("create", () => {
         test("should return movie when it is successfully write to DB", async () => {
             const mockFindByTitle = jest
@@ -38,9 +43,6 @@ describe("Movie service", () => {
 
             expect(mockFindByTitle).toHaveBeenCalledTimes(1);
             expect(mockCreate).toHaveBeenCalledTimes(1);
-
-            mockFindByTitle.mockClear();
-            mockCreate.mockClear();
         });
 
         test("should return error when provided title already exists", async () => {
@@ -70,7 +72,6 @@ describe("Movie service", () => {
                 `Movie with title ${movieDto.title} already exists`
             );
             expect(mockCreate).toHaveBeenCalledTimes(1);
-            mockCreate.mockClear();
         });
 
         test("should return error when movie fails to be saved on DB", async () => {
@@ -97,18 +98,10 @@ describe("Movie service", () => {
 
             expect(mockFindByTitle).toHaveBeenCalledTimes(1);
             expect(mockCreate).toHaveBeenCalledTimes(1);
-
-            mockFindByTitle.mockClear();
-            mockCreate.mockClear();
         });
     });
 
     describe("Get movies page", () => {
-        beforeEach(() => {
-            jest.restoreAllMocks();
-            jest.clearAllMocks();
-        });
-
         test("should return movies list with user vote when userId is provided", async () => {
             const mockGetMoviesPageLoggedIn = jest
                 .spyOn(Movie, "getMoviesPageLoggedIn")

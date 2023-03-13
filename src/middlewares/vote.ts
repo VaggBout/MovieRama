@@ -62,7 +62,7 @@ export function validateRemoveVoteReq(
     }
 
     const voteValidator = Joi.object({
-        id: Joi.number().required(),
+        id: Joi.number().min(1).max(Number.MAX_SAFE_INTEGER).required(),
     });
 
     const { error } = <

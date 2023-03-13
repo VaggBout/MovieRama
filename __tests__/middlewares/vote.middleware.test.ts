@@ -66,4 +66,68 @@ describe("Vote middleware", () => {
             expect(next).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe("Validate remove vote request", () => {
+        test("should invoke next when request is valid", () => {
+            const next = jest.fn();
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                locals: {
+                    user: {},
+                },
+                send: jest.fn(),
+            } as unknown as express.Response;
+
+            VoteMiddleware.validateRemoveVoteReq(req, res, next);
+            expect(next).toHaveBeenCalledTimes(1);
+            expect(res.send).not.toHaveBeenCalled();
+        });
+
+        test("should respond with 401 when user is not logged in", () => {
+            const next = jest.fn();
+            const req = {
+                params: {
+                    id: 1,
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                locals: {},
+                statusCode: 0,
+                send: jest.fn(),
+            } as unknown as express.Response;
+
+            VoteMiddleware.validateRemoveVoteReq(req, res, next);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(next).not.toHaveBeenCalled();
+            expect(res.statusCode).toBe(401);
+        });
+
+        test("should respond with 400 when url params are invalid", () => {
+            const next = jest.fn();
+            const req = {
+                params: {
+                    id: "invalid-params",
+                },
+            } as unknown as express.Request;
+
+            const res = {
+                locals: {
+                    user: {},
+                },
+                statusCode: 0,
+                send: jest.fn(),
+            } as unknown as express.Response;
+
+            VoteMiddleware.validateRemoveVoteReq(req, res, next);
+            expect(res.send).toHaveBeenCalledTimes(1);
+            expect(next).not.toHaveBeenCalled();
+            expect(res.statusCode).toBe(400);
+        });
+    });
 });
