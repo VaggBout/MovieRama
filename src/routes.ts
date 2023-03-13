@@ -1,6 +1,7 @@
 import * as express from "express";
 
 import * as HomeController from "./controllers/home";
+import * as UserController from "./controllers/user";
 
 import * as LoginApiController from "./controllers/api/login";
 import * as MovieApiController from "./controllers/api/movie";
@@ -18,6 +19,12 @@ const apiRoutes = express.Router();
 
 routes.use(UserMiddleware.populateAuthUser);
 routes.get("/", MovieMiddleware.validateRenderMoviesReq, HomeController.get);
+routes.get(
+    "/users/:id",
+    UserMiddleware.validateUserIdParam,
+    MovieMiddleware.validateRenderMoviesReq,
+    UserController.get
+);
 routes.use("/api", apiRoutes);
 
 apiRoutes.post(

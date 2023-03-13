@@ -12,6 +12,7 @@ interface MoviesPageParams {
     sort?: MoviesSort;
     page?: number;
     limit?: number;
+    creatorId?: number;
 }
 
 // Workaround on express generic request types

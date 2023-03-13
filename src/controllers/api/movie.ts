@@ -47,6 +47,7 @@ export async function get(
         const sort = req.query.sort ? req.query.sort : "DESC";
         const page = req.query.page ? req.query.page : 0;
         const limit = req.query.limit ? req.query.limit : 5;
+        const creatorId = req.query.creatorId ? req.query.creatorId : null;
 
         const result = await MovieService.getMoviesPage(
             sort,
@@ -54,7 +55,7 @@ export async function get(
             page * limit,
             order,
             userId,
-            null
+            creatorId
         );
 
         const html: string = await new Promise(function (resolve, reject) {
