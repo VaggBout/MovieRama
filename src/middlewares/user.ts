@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import * as UserService from "../services/user";
-import { User } from "../models/user";
 import Joi, { ValidationError } from "joi";
 import logger from "../utils/logger";
 
@@ -24,8 +23,12 @@ export async function populateAuthUser(
     }
 
     try {
-        const user = await User.findById(validatedToken.id);
-        res.locals.user = user;
+        // const user = await User.findById(validatedToken.id);
+        const result = await UserService.find(validatedToken.id);
+
+        if (result.data) {
+            res.locals.user = result.data;
+        }
     } finally {
         return next();
     }

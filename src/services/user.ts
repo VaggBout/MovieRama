@@ -31,6 +31,20 @@ export async function register(
     return { data: user };
 }
 
+export async function find(id: number): Promise<OperationResult<User>> {
+    const user = await User.findById(id);
+
+    if (!user) {
+        return {
+            error: `User with ${id} does not exist`,
+        };
+    }
+
+    return {
+        data: user,
+    };
+}
+
 /**
  * Tries to authenticate the provided credentials. If the credentials match
  * a `User` instance is returned
