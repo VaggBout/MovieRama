@@ -131,7 +131,9 @@ async function voteHandler(event) {
     } else {
         await removeVote(movieId);
     }
-    location.reload();
+
+    const params = getCurrentQueryParams();
+    await updateMoviesPage(params);
 }
 
 function addPaginationHandlers() {
@@ -147,6 +149,10 @@ async function paginationHandler(event) {
         return;
     }
 
+    await updateMoviesPage(params);
+}
+
+async function updateMoviesPage(params) {
     try {
         const response = await axios.get("/api/movie", { params });
         const moviesList = document.getElementById("moviesList");
@@ -167,9 +173,9 @@ async function paginationHandler(event) {
                 .classList.remove("disabled");
         }
 
-        const totalPages = Math.ceil(
-            +response.data.data.totalMovies / params.limit
-        );
+        const totalPages =
+            Math.ceil(+response.data.data.totalMovies / params.limit) - 1;
+
         if (totalPages === params.page) {
             document.getElementById("paginationNext").classList.add("disabled");
         } else {
@@ -195,38 +201,46 @@ function updateUrlParams(params) {
 
 function preparePaginationParams(eventData) {
     const action = eventData.action;
-    const urlQueryParams = new URL(window.location.href).searchParams;
-
-    const limit = 5;
-    let page = urlQueryParams.get("page") ? +urlQueryParams.get("page") : 0;
-    let order = urlQueryParams.get("order")
-        ? urlQueryParams.get("order")
-        : "date";
-    let sort = urlQueryParams.get("sort") ? urlQueryParams.get("sort") : "DESC";
+    let queryParams = getCurrentQueryParams();
 
     if (action === "next") {
-        page++;
+        queryParams.page++;
     } else if (action === "previous") {
-        if (page === 0) {
+        if (queryParams.page === 0) {
             console.log("Invalid page");
             return null;
         }
-        page--;
+        queryParams.page--;
     } else if (action === "sort") {
         const orderBy = eventData.order;
-        if (orderBy === order) {
-            sort = sort === "DESC" ? "ASC" : "DESC";
+        if (orderBy === queryParams.order) {
+            queryParams.sort = queryParams.sort === "DESC" ? "ASC" : "DESC";
         } else if (
             orderBy === "date" ||
             orderBy === "likes" ||
             orderBy === "hates"
         ) {
-            order = orderBy;
+            queryParams.order = orderBy;
         } else {
             console.error("Invalid sort");
             return null;
         }
     }
+    return queryParams;
+}
+
+function getCurrentQueryParams() {
+    const urlQueryParams = new URL(window.location.href).searchParams;
+
+    const limit = 5;
+    const page = urlQueryParams.get("page") ? +urlQueryParams.get("page") : 0;
+    const order = urlQueryParams.get("order")
+        ? urlQueryParams.get("order")
+        : "date";
+    const sort = urlQueryParams.get("sort")
+        ? urlQueryParams.get("sort")
+        : "DESC";
+
     return {
         limit,
         page,
