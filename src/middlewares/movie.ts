@@ -81,6 +81,7 @@ function validate(req: Request): ValidationError | null {
         sort: Joi.string().valid("DESC", "ASC"),
         page: Joi.number().min(0).max(Number.MAX_SAFE_INTEGER),
         limit: Joi.number().min(1).max(10),
+        creatorId: Joi.number().min(0).max(Number.MAX_SAFE_INTEGER),
     });
 
     const { error } = <
