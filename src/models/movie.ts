@@ -116,9 +116,10 @@ export class Movie {
         sort: "DESC" | "ASC",
         limit: number,
         offset: number,
-        order: "date" | "likes" | "hates"
+        order: "date" | "likes" | "hates",
+        creatorId: number | null
     ): Promise<Array<MovieEntryDto>> {
-        const query = `
+        let query = `
             SELECT 
                 mv.id, 
                 mv.title, 
@@ -133,6 +134,19 @@ export class Movie {
                 ON u.id = mv.user_id
             LEFT JOIN votes v
                 ON mv.id = v.movie_id
+        `;
+        const params = [];
+
+        if (creatorId) {
+            query += `
+                WHERE
+                    mv.user_id = $1
+            `;
+
+            params.push(creatorId);
+        }
+
+        query += `
             GROUP BY mv.id, u.name
             ORDER BY "${order}" ${sort}
             LIMIT ${limit}
@@ -140,7 +154,7 @@ export class Movie {
         `;
 
         try {
-            const result = await getDb().query(query, []);
+            const result = await getDb().query(query, params);
             if (result.rowCount === 0) {
                 return [];
             }
@@ -176,9 +190,10 @@ export class Movie {
         limit: number,
         offset: number,
         userId: number,
-        order: "date" | "likes" | "hates"
+        order: "date" | "likes" | "hates",
+        creatorId: number | null
     ): Promise<Array<MovieEntryDto>> {
-        const query = `
+        let query = `
             SELECT 
                 mv.id, 
                 mv.title, 
@@ -197,13 +212,24 @@ export class Movie {
             LEFT JOIN votes uv
                 ON mv.id = uv.movie_id
                 AND uv.user_id = $1
+        `;
+        const params = [userId];
+
+        if (creatorId) {
+            query += `
+                WHERE
+                    mv.user_id = $2
+            `;
+
+            params.push(creatorId);
+        }
+
+        query += `
             GROUP BY mv.id, u.name, uv."like"
             ORDER BY "${order}" ${sort}
             LIMIT ${limit}
             OFFSET ${offset};
-    `;
-
-        const params = [userId];
+        `;
 
         try {
             const result = await getDb().query(query, params);
