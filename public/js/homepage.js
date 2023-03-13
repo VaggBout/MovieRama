@@ -146,7 +146,7 @@ async function voteHandler(event) {
         await removeVote(movieId);
     }
 
-    const params = getCurrentQueryParams();
+    const params = getCurrentPaginationParams();
     await updateMoviesPage(params);
 }
 
@@ -215,13 +215,13 @@ function updateUrlParams(params) {
 
 function preparePaginationParams(eventData) {
     const action = eventData.action;
-    let queryParams = getCurrentQueryParams();
+    let queryParams = getCurrentPaginationParams();
 
     if (action === "next") {
         queryParams.page++;
     } else if (action === "previous") {
         if (queryParams.page === 0) {
-            console.log("Invalid page");
+            console.error("Invalid page");
             return null;
         }
         queryParams.page--;
@@ -243,24 +243,25 @@ function preparePaginationParams(eventData) {
     return queryParams;
 }
 
-function getCurrentQueryParams() {
-    const urlQueryParams = new URL(window.location.href).searchParams;
-
-    const limit = 5;
-    const page = urlQueryParams.get("page") ? +urlQueryParams.get("page") : 0;
-    const order = urlQueryParams.get("order")
-        ? urlQueryParams.get("order")
-        : "date";
-    const sort = urlQueryParams.get("sort")
-        ? urlQueryParams.get("sort")
-        : "DESC";
-
-    return {
-        limit,
-        page,
-        order,
-        sort,
+function getCurrentPaginationParams() {
+    const url = new URL(window.location.href);
+    const urlQueryParams = url.searchParams;
+    const params = {
+        limit: 5,
+        page: urlQueryParams.get("page") ? +urlQueryParams.get("page") : 0,
+        order: urlQueryParams.get("order")
+            ? urlQueryParams.get("order")
+            : "date",
+        sort: urlQueryParams.get("sort") ? urlQueryParams.get("sort") : "DESC",
+        creatorId: null,
     };
+
+    const pathRegEx = new RegExp(/\/users\/\d*/);
+    if (pathRegEx.test(url.pathname)) {
+        const creatorId = url.pathname.split("/")[2];
+        params.creatorId = creatorId;
+    }
+    return params;
 }
 
 async function voteMovie(movieId, like) {
