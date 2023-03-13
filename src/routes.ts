@@ -1,6 +1,6 @@
 import * as express from "express";
 
-import * as HomepageController from "./controllers/homepage";
+import * as HomeController from "./controllers/home";
 
 import * as LoginApiController from "./controllers/api/login";
 import * as MovieApiController from "./controllers/api/movie";
@@ -17,7 +17,7 @@ const routes = express.Router();
 const apiRoutes = express.Router();
 
 routes.use(UserMiddleware.populateAuthUser);
-routes.get("/", HomepageController.get);
+routes.get("/", MovieMiddleware.validateRenderMoviesReq, HomeController.get);
 routes.use("/api", apiRoutes);
 
 apiRoutes.post(
@@ -36,6 +36,12 @@ apiRoutes.post(
     "/movie",
     MovieMiddleware.validateCreateMovieReq,
     MovieApiController.post
+);
+
+apiRoutes.get(
+    "/movie",
+    MovieMiddleware.validateApiMoviesReq,
+    MovieApiController.get
 );
 
 apiRoutes.post(
