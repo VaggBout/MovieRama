@@ -8,6 +8,7 @@ window.onload = function () {
         addLoginModalHandler();
         addRegisterModalHandler();
     }
+    addPaginationHandlers();
 };
 
 function errorMessage(error, id) {
@@ -131,6 +132,85 @@ async function voteHandler(event) {
         await removeVote(movieId);
     }
     location.reload();
+}
+
+function addPaginationHandlers() {
+    const elements = document.getElementsByClassName("_pagination");
+    Array.from(elements).forEach(function (element) {
+        element.addEventListener("click", paginationHandler);
+    });
+}
+
+async function paginationHandler(event) {
+    const params = preparePaginationParams(event.target.dataset);
+    if (!params) {
+        return;
+    }
+
+    try {
+        const response = await axios.get("/api/movie", { params });
+        const moviesList = document.getElementById("moviesList");
+        moviesList.innerHTML = response.data.html;
+
+        if (getCookie("token")) {
+            addVoteHandlers();
+        }
+
+        updateUrlParams(params);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function updateUrlParams(params) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", params.page);
+    url.searchParams.set("order", params.order);
+    url.searchParams.set("sort", params.sort);
+
+    window.history.pushState(null, null, url);
+}
+
+function preparePaginationParams(eventData) {
+    const action = eventData.action;
+    const urlQueryParams = new URL(window.location.href).searchParams;
+
+    const limit = 5;
+    let page = urlQueryParams.get("page") ? +urlQueryParams.get("page") : 0;
+    let order = urlQueryParams.get("order")
+        ? urlQueryParams.get("order")
+        : "date";
+    let sort = urlQueryParams.get("sort") ? urlQueryParams.get("sort") : "DESC";
+
+    if (action === "next") {
+        page++;
+    } else if (action === "previous") {
+        if (page === 0) {
+            console.log("Invalid page");
+            return null;
+        }
+        page--;
+    } else if (action === "sort") {
+        const orderBy = eventData.order;
+        if (orderBy === order) {
+            sort = sort === "DESC" ? "ASC" : "DESC";
+        } else if (
+            orderBy === "date" ||
+            orderBy === "likes" ||
+            orderBy === "hates"
+        ) {
+            order = orderBy;
+        } else {
+            console.error("Invalid sort");
+            return null;
+        }
+    }
+    return {
+        limit,
+        page,
+        order,
+        sort,
+    };
 }
 
 async function voteMovie(movieId, like) {

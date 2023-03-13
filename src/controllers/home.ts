@@ -22,7 +22,7 @@ export async function get(
             userId
         );
         res.locals.movies = result.data ? result.data : [];
-        return res.render("homepage");
+        return res.render("home");
     } catch (error) {
         res.statusCode = 500;
         res.render("500");
