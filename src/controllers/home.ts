@@ -19,7 +19,8 @@ export async function get(
             limit,
             page * limit,
             order,
-            userId
+            userId,
+            null
         );
         res.locals.movies = result.data?.movies ? result.data.movies : [];
         res.locals.totalMovies = result.data?.totalMovies

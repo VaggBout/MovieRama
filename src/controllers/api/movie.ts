@@ -53,7 +53,8 @@ export async function get(
             limit,
             page * limit,
             order,
-            userId
+            userId,
+            null
         );
 
         const html: string = await new Promise(function (resolve, reject) {
