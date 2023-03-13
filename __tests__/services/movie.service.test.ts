@@ -143,7 +143,8 @@ describe("Movie service", () => {
                 1,
                 0,
                 "date",
-                1
+                1,
+                null
             );
             expect(result.error).toBeUndefined();
             expect(result.data).toBeDefined();
@@ -189,6 +190,7 @@ describe("Movie service", () => {
                 1,
                 0,
                 "date",
+                null,
                 null
             );
             expect(result.error).toBeUndefined();

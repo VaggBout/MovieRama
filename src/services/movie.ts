@@ -26,7 +26,8 @@ export async function getMoviesPage(
     limit: number,
     offset: number,
     order: "date" | "likes" | "hates",
-    userId: number | null
+    userId: number | null,
+    creatorId: number | null
 ): Promise<OperationResult<MoviesPageDto>> {
     const totalMoviesPromise = Movie.getMoviesCount();
     let moviesPagePromise: Promise<Array<MovieEntryDto>>;
@@ -37,10 +38,17 @@ export async function getMoviesPage(
             limit,
             offset,
             userId,
-            order
+            order,
+            creatorId
         );
     } else {
-        moviesPagePromise = Movie.getMoviesPage(sort, limit, offset, order);
+        moviesPagePromise = Movie.getMoviesPage(
+            sort,
+            limit,
+            offset,
+            order,
+            creatorId
+        );
     }
 
     const [totalMovies, movies] = await Promise.all([
