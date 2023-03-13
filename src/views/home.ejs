@@ -29,10 +29,10 @@
                     <div class="my-5">
                         <nav>
                             <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
+                                <li class="page-item disabled" id="paginationPrevious">
                                     <a class="page-link _pagination" data-action="previous" href="javascript:void(0)" tabindex="-1">Previous</a>
                                 </li>
-                                <li class="page-item">
+                                <li class="page-item <%= locals.totalMovies === "0" ? "disabled" : "" %>" id="paginationNext">
                                     <a class="page-link _pagination" data-action="next" href="javascript:void(0)">Next</a>
                                 </li>
                             </ul>

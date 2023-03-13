@@ -153,7 +153,29 @@ async function paginationHandler(event) {
         moviesList.innerHTML = response.data.html;
 
         if (getCookie("token")) {
+            // Re-initiate vote handlers on new elements
             addVoteHandlers();
+        }
+
+        if (params.page === 0) {
+            document
+                .getElementById("paginationPrevious")
+                .classList.add("disabled");
+        } else {
+            document
+                .getElementById("paginationPrevious")
+                .classList.remove("disabled");
+        }
+
+        const totalPages = Math.ceil(
+            +response.data.data.totalMovies / params.limit
+        );
+        if (totalPages === params.page) {
+            document.getElementById("paginationNext").classList.add("disabled");
+        } else {
+            document
+                .getElementById("paginationNext")
+                .classList.remove("disabled");
         }
 
         updateUrlParams(params);

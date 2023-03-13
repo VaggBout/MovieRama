@@ -55,13 +55,13 @@ export async function get(
             order,
             userId
         );
-        res.locals.movies = result.data ? result.data : [];
+
         const html: string = await new Promise(function (resolve, reject) {
             req.app.render(
                 "partials/moviesList",
                 {
                     user: res.locals.user,
-                    movies: result.data ? result.data : [],
+                    movies: result.data?.movies ? result.data.movies : [],
                 },
                 function (error: Error, html: string) {
                     if (error) {
@@ -72,7 +72,14 @@ export async function get(
             );
         });
 
-        res.send({ html });
+        res.send({
+            html,
+            data: {
+                totalMovies: result.data?.totalMovies
+                    ? result.data.totalMovies
+                    : 0,
+            },
+        });
     } catch (error) {
         logger.error(error);
         res.statusCode = 500;

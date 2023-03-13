@@ -21,7 +21,10 @@ export async function get(
             order,
             userId
         );
-        res.locals.movies = result.data ? result.data : [];
+        res.locals.movies = result.data?.movies ? result.data.movies : [];
+        res.locals.totalMovies = result.data?.totalMovies
+            ? result.data.totalMovies
+            : 0;
         return res.render("home");
     } catch (error) {
         res.statusCode = 500;
