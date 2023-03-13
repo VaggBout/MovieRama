@@ -40,25 +40,25 @@ apiRoutes.post(
 );
 
 apiRoutes.post(
-    "/movie",
+    "/movies",
     MovieMiddleware.validateCreateMovieReq,
     MovieApiController.post
 );
 
 apiRoutes.get(
-    "/movie",
+    "/movies",
     MovieMiddleware.validateApiMoviesReq,
     MovieApiController.get
 );
 
 apiRoutes.post(
-    "/vote",
+    "/votes",
     VoteMiddleware.validateCreateVoteReq,
     VoteApiController.post
 );
 
 apiRoutes.delete(
-    "/vote/:id",
+    "/votes/:id",
     VoteMiddleware.validateRemoveVoteReq,
     VoteApiController.remove
 );

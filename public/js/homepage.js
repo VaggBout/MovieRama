@@ -117,7 +117,7 @@ function addCreateMovieHandlers() {
             };
 
             try {
-                await axios.post("/api/movie", data);
+                await axios.post("/api/movies", data);
                 const modalElement = document.getElementById("newMovieModal");
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
@@ -168,7 +168,7 @@ async function paginationHandler(event) {
 
 async function updateMoviesPage(params) {
     try {
-        const response = await axios.get("/api/movie", { params });
+        const response = await axios.get("/api/movies", { params });
         const moviesList = document.getElementById("moviesList");
         moviesList.innerHTML = response.data.html;
 
@@ -271,7 +271,7 @@ async function voteMovie(movieId, like) {
     };
 
     try {
-        await axios.post("/api/vote", data);
+        await axios.post("/api/votes", data);
     } catch (error) {
         console.error(error);
     }
@@ -279,7 +279,7 @@ async function voteMovie(movieId, like) {
 
 async function removeVote(movieId) {
     try {
-        await axios.delete(`/api/vote/${movieId}`);
+        await axios.delete(`/api/votes/${movieId}`);
     } catch (error) {
         console.error(error);
     }
