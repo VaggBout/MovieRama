@@ -1,15 +1,8 @@
 import { Pool, QueryResult } from "pg";
+import { dbConfig } from "../../types/db";
 import logger from "../../utils/logger";
 
 let _db: PostgresSQLAdapter | null = null;
-
-interface dbConfig {
-    host: string;
-    port: number;
-    database: string;
-    user: string;
-    password: string;
-}
 
 class PostgresSQLAdapter {
     private pool: Pool;
@@ -51,15 +44,7 @@ class PostgresSQLAdapter {
  * This method creates a new pool and tests the connection based
  * on the `process.env` config. In case of failure the process will exit.
  */
-export async function init() {
-    const config: dbConfig = {
-        host: process.env.DB_HOST || "localhost",
-        port: (process.env.DB_PORT as unknown as number) || 5432,
-        database: process.env.DB_NAME || "",
-        user: process.env.DB_USER || "",
-        password: process.env.DB_PASSWORD || "",
-    };
-
+export async function init(config: dbConfig) {
     const db = new PostgresSQLAdapter(config);
     await db._testConnection().catch((error) => {
         logger.error(`Failed to initialize DB connection. Error: ${error}`);

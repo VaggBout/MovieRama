@@ -5,6 +5,7 @@ import path from "path";
 import { init } from "./models/adapter/postgresAdapter";
 import logger from "./utils/logger";
 import cookieParser from "cookie-parser";
+import { dbConfig } from "./types/db";
 
 dotenv.config();
 
@@ -22,7 +23,15 @@ app.use("/", routes);
 app.use("/static", express.static("public"));
 
 app.listen(port, () => {
-    init().then(() =>
+    const config: dbConfig = {
+        host: process.env.DB_HOST || "localhost",
+        port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
+        database: process.env.DB_NAME || "",
+        user: process.env.DB_USER || "",
+        password: process.env.DB_PASSWORD || "",
+    };
+
+    init(config).then(() =>
         logger.info(`Server is running at http://localhost:${port}`)
     );
 });
