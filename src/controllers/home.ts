@@ -23,6 +23,8 @@ export async function get(
             null
         );
         res.locals.movies = result.data?.movies ? result.data.movies : [];
+        res.locals.moviesLimit = limit;
+        res.locals.moviesPage = page;
         res.locals.totalMovies = result.data?.totalMovies
             ? result.data.totalMovies
             : 0;
