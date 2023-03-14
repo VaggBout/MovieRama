@@ -1,5 +1,6 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+import type { Config } from "jest";
+
+const config: Config = {
     preset: "ts-jest",
     testEnvironment: "node",
     coverageReporters: ["html", "lcov", "text"],
@@ -9,5 +10,7 @@ module.exports = {
     },
     testPathIgnorePatterns: ["<rootDir>/node_modules/"],
     modulePathIgnorePatterns: ["<rootDir>/dist"],
-    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
+
+export default config;
