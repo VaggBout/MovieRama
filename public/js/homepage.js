@@ -118,6 +118,8 @@ function addCreateMovieHandlers() {
 
             try {
                 await axios.post("/api/movies", data);
+                const params = getCurrentPaginationParams();
+                await updateMoviesPage(params);
                 const modalElement = document.getElementById("newMovieModal");
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
