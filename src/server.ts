@@ -18,9 +18,12 @@ const port = process.env.PORT ? process.env.PORT : 3000;
 
 app.use(cookieParser());
 app.use(express.json());
+app.use("/static", express.static("public"));
 app.use("/", routes);
 
-app.use("/static", express.static("public"));
+app.use("*", function (_req: express.Request, res: express.Response) {
+    res.render("404");
+});
 
 app.listen(port, () => {
     const config: dbConfig = {
