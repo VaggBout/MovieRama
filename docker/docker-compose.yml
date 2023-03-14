@@ -25,3 +25,15 @@ services:
             - pgadmin:/root/.pgadmin
         ports:
             - "${PGADMIN_PORT:-5050}:80"
+
+    movie_rama:
+        container_name: movie_rama
+        build:
+          dockerfile: Dockerfile
+          context: ../
+        depends_on:
+          - db
+        volumes:
+          - ../docker.env:/usr/src/app/.env
+        ports:
+            - 3000:3000

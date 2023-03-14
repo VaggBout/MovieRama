@@ -1,16 +1,21 @@
 {
   "name": "movierama-backend",
   "version": "0.0.1",
-  "description": "A social sharing platform where users can share their favorite movies - backend",
+  "description": "A social sharing platform where users can share their favorite movies",
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc",
     "prebuild": "rm -rf build/",
     "postbuild": "cp -r .env src/views public dist/src/",
-    "start": "npm run build && node dist/src/server.js",
+    "start": "node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
     "test": "jest --coverage --detectOpenHandles",
-    "test:integration": "jest --coverage --detectOpenHandles --config=jest.config.integration.ts"
+    "test:integration": "jest --coverage --detectOpenHandles --config=jest.config.integration.ts",
+    "docker:build": "tsc",
+    "postdocker:build": "cp -r src/views public dist/src/",
+    "predocker": "./scripts/wait-for.sh db:5432 -- npm run migrate -- --config db-migrate.json",
+    "docker": "npm run start",
+    "migrate": "db-migrate up"
   },
   "author": "Vaggelis Boutas",
   "license": "ISC",
@@ -39,7 +44,6 @@
     "@types/node": "18.15.0",
     "@types/pg": "8.6.6",
     "@types/supertest": "2.0.12",
-    "@types/winston": "2.4.4",
     "jest": "29.5.0",
     "jsdom": "^21.1.1",
     "nodemon": "2.0.21",

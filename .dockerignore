@@ -1,0 +1,12 @@
+node_modules
+dist
+.vscode
+coverage
+__tests__
+integration
+.git
+.gitignore
+Dockerfile
+docker
+jest.*
+*.env
