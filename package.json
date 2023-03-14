@@ -10,7 +10,7 @@
     "start": "node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
     "test": "jest --coverage --detectOpenHandles",
-    "test:integration": "jest --coverage --detectOpenHandles --config=jest.config.integration.ts",
+    "test:integration": "ENV=integration jest --coverage --detectOpenHandles --config=jest.config.integration.ts",
     "docker:build": "tsc",
     "postdocker:build": "cp -r src/views public dist/src/",
     "predocker": "./scripts/wait-for.sh db:5432 -- npm run migrate -- --config db-migrate.json",

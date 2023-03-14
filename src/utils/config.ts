@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import joi from "joi";
 import path from "path";
 
-dotenv.config({ path: path.join(__dirname, "../../.env") });
+const suffix = process.env.ENV ? `.${process.env.ENV}` : "";
+dotenv.config({ path: path.join(__dirname, `../../.env${suffix}`) });
 
 const configSchema = joi
     .object()
