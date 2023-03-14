@@ -36,6 +36,10 @@ class PostgresSQLAdapter {
             );
         }
     }
+
+    public async close(): Promise<void> {
+        await this.pool.end();
+    }
 }
 
 /**

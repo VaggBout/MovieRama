@@ -9,7 +9,8 @@
     "postbuild": "cp -r .env src/views public dist/src/",
     "start": "npm run build && node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
-    "test": "jest --coverage --detectOpenHandles"
+    "test": "jest --coverage --detectOpenHandles",
+    "test:integration": "jest --detectOpenHandles --config=jest.config.integration.ts"
   },
   "author": "Vaggelis Boutas",
   "license": "ISC",
@@ -36,10 +37,12 @@
     "@types/luxon": "^3.2.0",
     "@types/node": "18.15.0",
     "@types/pg": "8.6.6",
+    "@types/supertest": "2.0.12",
     "@types/winston": "2.4.4",
     "jest": "29.5.0",
     "nodemon": "2.0.21",
     "prettier": "2.8.4",
+    "supertest": "6.3.3",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",
     "typescript": "4.9.5"
