@@ -63,4 +63,8 @@ apiRoutes.delete(
     VoteApiController.remove
 );
 
+routes.use("*", function (_req: express.Request, res: express.Response) {
+    res.render("404");
+});
+
 export = routes;
