@@ -12,6 +12,11 @@ const config: Config = {
     modulePathIgnorePatterns: ["<rootDir>/dist"],
     setupFilesAfterEnv: ["<rootDir>/jest.setup.integration.ts"],
     testMatch: ["<rootDir>/integration/**/*.integration.ts"],
+    coveragePathIgnorePatterns: [
+        "<rootDir>/migrations",
+        "<rootDir>/integration",
+        "<rootDir>/node_modules",
+    ],
 };
 
 export default config;

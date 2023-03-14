@@ -10,7 +10,7 @@
     "start": "npm run build && node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
     "test": "jest --coverage --detectOpenHandles",
-    "test:integration": "jest --detectOpenHandles --config=jest.config.integration.ts"
+    "test:integration": "jest --coverage --detectOpenHandles --config=jest.config.integration.ts"
   },
   "author": "Vaggelis Boutas",
   "license": "ISC",
