@@ -31,7 +31,7 @@ export class User {
             }
 
             return new User(
-                result.rows[0] as number,
+                result.rows[0].id as number,
                 data.email,
                 data.name,
                 data.hash
