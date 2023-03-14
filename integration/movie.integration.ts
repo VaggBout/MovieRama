@@ -17,6 +17,7 @@ import request from "supertest";
 import { cleanDb } from "./utils";
 import * as UserService from "../src/services/user";
 import * as MovieService from "../src/services/movie";
+import * as VoteService from "../src/services/vote";
 import { DateTime } from "luxon";
 import { JSDOM } from "jsdom";
 
@@ -198,5 +199,124 @@ describe("Movie (e2e)", () => {
             // we expect element ids to be sequential
             expect(element?.id).toBe(`movie_${i + 1}`);
         }
+    });
+
+    test("Should render movies based on user vote when user is logged in", async () => {
+        const user1Result = await UserService.register({
+            name: "test",
+            email: "test@email.com",
+            hash: "password!",
+        });
+        expect(user1Result.error).toBeUndefined();
+
+        const user2Result = await UserService.register({
+            name: "test",
+            email: "test2@email.com",
+            hash: "password!",
+        });
+        expect(user2Result.error).toBeUndefined();
+
+        // Create 5 movies
+        for (let i = 0; i < 5; i++) {
+            await MovieService.create({
+                title: `test_${i}`,
+                description: "test desc",
+                userId: user1Result.data?.id ? user1Result.data.id : 1,
+                date: DateTime.now().minus({ days: i }),
+            });
+        }
+
+        const voteResult = await VoteService.create({
+            userId: user2Result.data?.id ? user2Result.data.id : 2,
+            movieId: 1,
+            like: true,
+        });
+        expect(voteResult.error).toBeUndefined();
+
+        const loginBody = {
+            email: "test2@email.com",
+            password: "password!",
+        };
+
+        const agent = request.agent(app);
+        const response = await agent
+            .post("/api/login")
+            .send(loginBody)
+            .expect(200)
+            .then(() =>
+                agent
+                    .get("/api/movies")
+                    .query({
+                        page: 0,
+                        limit: 1,
+                        order: "date",
+                        sort: "DESC",
+                    })
+                    .expect(200)
+            );
+
+        expect(response.body.data.totalMovies).toBe("5");
+        const dom = new JSDOM("<!DOCTYPE html>");
+        const document = dom.window.document;
+        const div = document.createElement("div");
+        div.innerHTML = response.body.html;
+        expect(div.childElementCount).toBe(1);
+
+        document.body.appendChild(div);
+        // Since user has liked the movie we expect to find a hate element
+        const element = document.querySelector("#movie_1 div div div p a");
+        expect(element?.getAttribute("data-action")).toBe("hate");
+        expect(element?.getAttribute("data-movie")).toBe("1");
+    });
+
+    test("Should render movies of user when creatorId is provided", async () => {
+        const user1Result = await UserService.register({
+            name: "test",
+            email: "test@email.com",
+            hash: "password!",
+        });
+        expect(user1Result.error).toBeUndefined();
+
+        const user2Result = await UserService.register({
+            name: "test",
+            email: "test2@email.com",
+            hash: "password!",
+        });
+        expect(user2Result.error).toBeUndefined();
+
+        // Create 5 movies for user1
+        for (let i = 0; i < 5; i++) {
+            await MovieService.create({
+                title: `test_${i}`,
+                description: "test desc",
+                userId: user1Result.data?.id ? user1Result.data.id : 1,
+                date: DateTime.now(),
+            });
+        }
+
+        // Create 5 movies for user2
+        for (let i = 0; i < 5; i++) {
+            await MovieService.create({
+                title: `test_${i}`,
+                description: "test desc",
+                userId: user2Result.data?.id ? user2Result.data.id : 2,
+                date: DateTime.now(),
+            });
+        }
+
+        const response = await request(app)
+            .get("/api/movies")
+            .query({
+                page: 0,
+                limit: 10,
+                creatorId: 1,
+            })
+            .expect(200);
+        expect(response.body.data.totalMovies).toBe("5");
+        const dom = new JSDOM("<!DOCTYPE html>");
+        const document = dom.window.document;
+        const div = document.createElement("div");
+        div.innerHTML = response.body.html;
+        expect(div.childElementCount).toBe(5);
     });
 });
