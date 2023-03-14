@@ -4,13 +4,13 @@ const levels = {
     error: 0,
     warn: 1,
     info: 2,
-    debug: 4,
+    debug: 3,
 };
 
 const level = () => {
     const env = process.env.NODE_ENV || "development";
     const isDevelopment = env === "development";
-    return isDevelopment ? "debug" : "info";
+    return isDevelopment ? "debug" : "warn";
 };
 
 const colors = {
