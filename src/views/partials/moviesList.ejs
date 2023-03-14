@@ -1,5 +1,5 @@
 <% for(let i=0; i < locals.movies.length; i++) { %>
-<div class="container border border-dark border-3 px-3 py-1 my-2">
+<div class="container border border-dark border-3 px-3 py-1 my-2 _movie_entry" id="movie_<%=locals.movies[i].id%>">
     <div class="row">
         <div class="col fw-bold">
             <h2><%= locals.movies[i].title %></h2>
