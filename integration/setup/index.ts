@@ -2,23 +2,24 @@ import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import path from "path";
 import routes from "../../src/routes";
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
 import { getDb, init } from "../../src/models/adapter/postgresAdapter";
-import { dbConfig } from "../../src/types/db";
+import { DbConfig } from "../../src/types/db";
+import config from "../../src/utils/config";
 
 const dbMigrate = require("db-migrate");
 
-dotenv.config({ path: path.join(__dirname, "../../integration.env") });
+// dotenv.config({ path: path.join(__dirname, "../../integration.env") });
 
 const dbmDefaultConfig = {
     env: "dev",
     config: {
         dev: {
             driver: "pg",
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT,
-            host: process.env.DB_HOST,
+            user: config.dbUser,
+            password: config.dbPassword,
+            port: config.dbPort,
+            host: config.dbHost,
             schema: "public",
             database: "postgres",
         },
@@ -41,15 +42,15 @@ export function buildMockApp(): Express {
 export async function initDbConnection(name: string): Promise<void> {
     const dbName = `movieRama_test_${name}`;
 
-    const config: dbConfig = {
-        host: process.env.DB_HOST || "localhost",
-        port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
+    const dbConfig: DbConfig = {
+        host: config.dbHost,
+        port: config.dbPort,
         database: dbName,
-        user: process.env.DB_USER || "",
-        password: process.env.DB_PASSWORD || "",
+        user: config.dbUser,
+        password: config.dbPassword,
     };
 
-    await init(config);
+    await init(dbConfig);
 }
 
 export async function buildDatabaseAndSchema(name: string) {

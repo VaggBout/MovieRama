@@ -5,9 +5,10 @@ import { UserDto } from "../types/dto";
 import logger from "../utils/logger";
 import jwt from "jsonwebtoken";
 import { JwtToken } from "../types/auth";
+import config from "../utils/config";
 
 const saltRounds = 10;
-const jwtSignature = process.env.TOKEN_SECRET || "secret";
+const jwtSignature = config.tokenSecret;
 
 export async function register(
     userData: UserDto
