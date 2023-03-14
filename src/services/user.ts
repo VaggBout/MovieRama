@@ -59,7 +59,7 @@ export async function auth(
     const user = await User.findByEmail(email);
 
     if (!user) {
-        logger.debug(`User ${email} does not exist`);
+        logger.warn(`User ${email} does not exist`);
         return {
             error: "Invalid credentials",
         };
@@ -67,7 +67,7 @@ export async function auth(
 
     const hasValidCreds = await bcrypt.compare(password, user.hash);
     if (!hasValidCreds) {
-        logger.debug(`Invalid credentials for user ${email}`);
+        logger.warn(`Invalid credentials for user ${email}`);
         return {
             error: "Invalid credentials",
         };
