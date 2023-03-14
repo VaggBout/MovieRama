@@ -50,6 +50,7 @@ export function validateApiMoviesReq(
 ) {
     const error = validate(req);
     if (error) {
+        logger.warn(`Invalid query params. Error: ${JSON.stringify(error)}`);
         res.statusCode = 400;
         res.send({ error: "Invalid request" });
         return;
@@ -65,6 +66,7 @@ export function validateRenderMoviesReq(
 ) {
     const error = validate(req);
     if (error) {
+        logger.warn(`Invalid query params. Error: ${JSON.stringify(error)}`);
         // In case params are invalid discard them
         req.query = {};
     }
