@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row justify-content-left">
                 <div class="col">
-                    <% if (locals.userProfile.id === locals.user.id) { %>
+                    <% if (locals.user && locals.userProfile.id === locals.user.id) { %>
                     <h3>
                         Welcome to your profile!
                     </h3>
