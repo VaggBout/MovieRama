@@ -14,7 +14,7 @@ USER node
 COPY --chown=node:node package*.json ./
 RUN npm ci
 # App files
-COPY --chown=node:node --from=builder /usr/src/app/dist ./dist
+COPY --chown=node:node --from=builder /usr/src/app/dist ./
 # Migration files
 COPY --chown=node:node ./migrations ./migrations
 COPY --chown=node:node ./db-migrate.json ./db-migrate.json

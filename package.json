@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc",
-    "prebuild": "rm -rf build/",
+    "prebuild": "rm -rf dist/",
     "postbuild": "cp -r .env src/views public dist/src/",
     "start": "node dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
@@ -14,7 +14,7 @@
     "docker:build": "tsc",
     "postdocker:build": "cp -r src/views public dist/src/",
     "predocker": "./scripts/wait-for.sh db:5432 -- npm run migrate -- --config db-migrate.json",
-    "docker": "npm run start",
+    "docker": "node src/server.js",
     "migrate": "db-migrate up"
   },
   "author": "Vaggelis Boutas",
