@@ -51,7 +51,7 @@
                     <div class="my-5">
                         <nav>
                             <ul class="pagination justify-content-center">
-                                <li class="page-item disabled" id="paginationPrevious">
+                                <li class="page-item <%= +locals.moviesPage === 0 ? "disabled" : "" %>" id="paginationPrevious">
                                     <a class="page-link _pagination" data-action="previous" href="javascript:void(0)" tabindex="-1">Previous</a>
                                 </li>
                                 <li class="page-item <%= Math.ceil(locals.totalMovies / locals.moviesLimit) - 1 === +locals.moviesPage ? "disabled" : "" %>" id="paginationNext">
