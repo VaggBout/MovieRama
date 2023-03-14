@@ -35,8 +35,6 @@ export function buildMockApp(): Express {
     mockApp.use(express.json());
     mockApp.use("/", routes);
 
-    // await init();
-
     return mockApp;
 }
 

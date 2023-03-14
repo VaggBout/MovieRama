@@ -40,7 +40,7 @@ export class Movie {
             }
 
             return new Movie(
-                result.rows[0] as number,
+                result.rows[0].id as number,
                 data.title,
                 data.description,
                 data.userId,

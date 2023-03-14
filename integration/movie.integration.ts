@@ -23,7 +23,7 @@ import { JSDOM } from "jsdom";
 
 describe("Movie (e2e)", () => {
     let app: Express;
-    const dbName = "login";
+    const dbName = "movies";
 
     beforeAll(async () => {
         try {
