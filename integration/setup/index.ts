@@ -1,14 +1,14 @@
 import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import path from "path";
-import routes from "../src/routes";
+import routes from "../../src/routes";
 import * as dotenv from "dotenv";
-import { getDb, init } from "../src/models/adapter/postgresAdapter";
-import { dbConfig } from "../src/types/db";
+import { getDb, init } from "../../src/models/adapter/postgresAdapter";
+import { dbConfig } from "../../src/types/db";
 
 const dbMigrate = require("db-migrate");
 
-dotenv.config({ path: path.join(__dirname, "../integration.env") });
+dotenv.config({ path: path.join(__dirname, "../../integration.env") });
 
 const dbmDefaultConfig = {
     env: "dev",
@@ -28,7 +28,7 @@ const dbmDefaultConfig = {
 export function buildMockApp(): Express {
     const mockApp = express();
 
-    mockApp.set("views", path.join(__dirname, "../src/views"));
+    mockApp.set("views", path.join(__dirname, "../../src/views"));
     mockApp.set("view engine", "ejs");
 
     mockApp.use(cookieParser());
@@ -81,4 +81,10 @@ export async function teardownDatabase(name: string) {
     await dbm.dropDatabase(dbName).catch(() => {
         throw new Error("Failed to drop db");
     });
+}
+
+export async function cleanDb() {
+    await getDb().query("TRUNCATE movies, votes, users CASCADE;");
+    await getDb().query("ALTER SEQUENCE movies_id_seq RESTART;");
+    await getDb().query("ALTER SEQUENCE users_id_seq RESTART;");
 }

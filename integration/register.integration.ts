@@ -11,11 +11,11 @@ import {
     teardownDatabase,
     buildMockApp,
     initDbConnection,
+    cleanDb,
 } from "./setup";
 import { Express } from "express";
 import request from "supertest";
 import { User } from "../src/models/user";
-import { cleanDb } from "./utils";
 
 describe("Register (e2e)", () => {
     let app: Express;

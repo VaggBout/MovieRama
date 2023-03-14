@@ -11,10 +11,10 @@ import {
     teardownDatabase,
     buildMockApp,
     initDbConnection,
+    cleanDb,
 } from "./setup";
 import { Express } from "express";
 import request from "supertest";
-import { cleanDb } from "./utils";
 import * as MovieService from "../src/services/movie";
 import * as UserService from "../src/services/user";
 import * as VoteService from "../src/services/vote";

@@ -11,11 +11,11 @@ import {
     teardownDatabase,
     buildMockApp,
     initDbConnection,
+    cleanDb,
 } from "./setup";
 import { Express } from "express";
 import request from "supertest";
 import * as UserService from "../src/services/user";
-import { cleanDb } from "./utils";
 import { UserDto } from "../src/types/dto";
 
 describe("Login (e2e)", () => {
