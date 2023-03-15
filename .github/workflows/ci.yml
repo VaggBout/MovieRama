@@ -15,43 +15,46 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running lint job on ${{ runner.os }}, triggered from ${{ github.event_name }} event at ${{ github.ref }} branch." 
-      - name: Use Node.js 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+    - run: echo "Running lint job on ${{ runner.os }}, triggered from ${{ github.event_name }} event at ${{ github.ref }} branch." 
+    - name: Use Node.js 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
 
-      - name: Check out repository code
-        uses: actions/checkout@v3
+    - name: Check out repository code
+      uses: actions/checkout@v3
 
-      - name: Lint code
-        run: npm install
-        run: npm run lint
+    - name: Lint code
+      run: |
+        npm install
+        npm run lint
 
       - run: echo "Job status -> ${{ job.status }}."
   unit-test:
-    name: lint
+    name: unit-test
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running unit test job on ${{ runner.os }}, triggered from ${{ github.event_name }} event at ${{ github.ref }} branch."
-      - name: Use Node.js 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+    - run: echo "Running unit test job on ${{ runner.os }}, triggered from ${{ github.event_name }} event at ${{ github.ref }} branch."
+    - name: Use Node.js 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
 
-      - name: Check out repository code
-        uses: actions/checkout@v3
+    - name: Check out repository code
+      uses: actions/checkout@v3
 
-      - uses: iamsauravsharma/create-dotenv@v1.2.2
-        env:
-          NODE_ENV: test
-          PORT: 3000
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: movierame
-          DB_USER: movie
-          DB_PASSWORD: password
-          TOKEN_SECRET: secret
-      - name: Lint code
-        run: npm install
-        run: npm run test
+    - uses: iamsauravsharma/create-dotenv@v1.2.2
+      env:
+        NODE_ENV: test
+        PORT: 3000
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: movierame
+        DB_USER: movie
+        DB_PASSWORD: password
+        TOKEN_SECRET: secret
+
+    - name: Unit test code
+      run: |
+        npm install
+        npm run test
