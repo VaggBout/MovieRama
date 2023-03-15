@@ -18,7 +18,7 @@
     "migrate": "db-migrate up",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky install"
+    "husky:install": "husky install"
   },
   "author": "Vaggelis Boutas",
   "license": "ISC",
