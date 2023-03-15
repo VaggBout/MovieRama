@@ -2,13 +2,10 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
-    paths:
-      - '**.ts'
-      - '**.js'
-      - '**.sh'
-      - 'Dockerfile'
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
 env:
   IMAGE_NAME: workable-assignment-movierama
   VERSION: latest
