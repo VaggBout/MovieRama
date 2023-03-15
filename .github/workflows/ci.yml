@@ -29,7 +29,7 @@ jobs:
         npm install
         npm run lint
 
-      - run: echo "Job status -> ${{ job.status }}."
+    - run: echo "Job status -> ${{ job.status }}."
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
