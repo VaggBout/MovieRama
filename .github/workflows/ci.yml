@@ -29,7 +29,6 @@ jobs:
         npm install
         npm run lint
 
-    - run: echo "Job status -> ${{ job.status }}."
   unit-test:
     name: unit-test
     runs-on: ubuntu-latest
@@ -92,7 +91,7 @@ jobs:
         DB_PASSWORD: postgres
         TOKEN_SECRET: secret
 
-    - name: Unit test code
+    - name: Integration test code
       run: |
         npm install
         npm run test:integration
