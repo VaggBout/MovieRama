@@ -30,7 +30,7 @@ export async function populateAuthUser(
             res.locals.user = result.data;
         }
     } finally {
-        return next();
+        next();
     }
 }
 

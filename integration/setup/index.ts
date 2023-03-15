@@ -2,14 +2,12 @@ import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import path from "path";
 import routes from "../../src/routes";
-// import * as dotenv from "dotenv";
 import { getDb, init } from "../../src/models/adapter/postgresAdapter";
 import { DbConfig } from "../../src/types/db";
 import config from "../../src/utils/config";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dbMigrate = require("db-migrate");
-
-// dotenv.config({ path: path.join(__dirname, "../../integration.env") });
 
 const dbmDefaultConfig = {
     env: "dev",
@@ -62,7 +60,7 @@ export async function buildDatabaseAndSchema(name: string) {
     });
 
     // We need a new instance to the newly created db
-    let dbmConfig = JSON.parse(JSON.stringify(dbmDefaultConfig));
+    const dbmConfig = JSON.parse(JSON.stringify(dbmDefaultConfig));
     dbmConfig.config.dev.database = dbName;
     const dbm = dbMigrate.getInstance(cwd, dbmConfig);
 

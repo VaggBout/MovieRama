@@ -16,8 +16,11 @@ interface MoviesPageParams {
 }
 
 // Workaround on express generic request types
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ReqParams {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ReqBody {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ResBody {}
 
 export { OperationResult, MoviesPageParams, ReqParams, ReqBody, ResBody };

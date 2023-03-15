@@ -25,13 +25,9 @@ describe("Votes (e2e)", () => {
     const dbName = "login";
 
     beforeAll(async () => {
-        try {
-            await buildDatabaseAndSchema(dbName);
-            app = buildMockApp();
-            await initDbConnection(dbName);
-        } catch (error) {
-            throw error;
-        }
+        await buildDatabaseAndSchema(dbName);
+        app = buildMockApp();
+        await initDbConnection(dbName);
     });
 
     afterAll(async () => {
@@ -51,7 +47,7 @@ describe("Votes (e2e)", () => {
         expect(result.error).toBeUndefined();
 
         await MovieService.create({
-            title: `test_movie`,
+            title: "test_movie",
             description: "test desc",
             userId: result.data?.id ? result.data.id : 1,
             date: DateTime.now(),
@@ -96,7 +92,7 @@ describe("Votes (e2e)", () => {
         expect(user2Result.error).toBeUndefined();
 
         await MovieService.create({
-            title: `test_movie`,
+            title: "test_movie",
             description: "test desc",
             userId: user1Result.data?.id ? user1Result.data.id : 1,
             date: DateTime.now(),
@@ -139,7 +135,7 @@ describe("Votes (e2e)", () => {
         expect(user2Result.error).toBeUndefined();
 
         const movieResult = await MovieService.create({
-            title: `test_movie`,
+            title: "test_movie",
             description: "test desc",
             userId: user1Result.data?.id ? user1Result.data.id : 1,
             date: DateTime.now(),

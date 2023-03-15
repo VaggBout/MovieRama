@@ -26,13 +26,9 @@ describe("Movie (e2e)", () => {
     const dbName = "movies";
 
     beforeAll(async () => {
-        try {
-            await buildDatabaseAndSchema(dbName);
-            app = buildMockApp();
-            await initDbConnection(dbName);
-        } catch (error) {
-            throw error;
-        }
+        await buildDatabaseAndSchema(dbName);
+        app = buildMockApp();
+        await initDbConnection(dbName);
     });
 
     afterAll(async () => {

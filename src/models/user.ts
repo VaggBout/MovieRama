@@ -26,7 +26,7 @@ export class User {
         const params = [data.email, data.name, data.hash];
         try {
             const result = await getDb().query(query, params);
-            if ((result.rowCount = 0)) {
+            if (result.rowCount === 0) {
                 return null;
             }
 

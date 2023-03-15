@@ -25,13 +25,9 @@ describe("Home page (e2e)", () => {
     const dbName = "home";
 
     beforeAll(async () => {
-        try {
-            await buildDatabaseAndSchema(dbName);
-            app = buildMockApp();
-            await initDbConnection(dbName);
-        } catch (error) {
-            throw error;
-        }
+        await buildDatabaseAndSchema(dbName);
+        app = buildMockApp();
+        await initDbConnection(dbName);
     });
 
     afterAll(async () => {

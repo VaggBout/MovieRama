@@ -56,7 +56,7 @@ describe("Movie middleware", () => {
                     user: {},
                 },
                 statusCode: 0,
-                send: jest.fn().mockImplementationOnce((body: any) => {
+                send: jest.fn().mockImplementationOnce(() => {
                     throw new Error("Should not be called");
                 }),
             } as unknown as express.Response;
