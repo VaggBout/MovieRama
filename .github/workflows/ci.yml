@@ -49,7 +49,7 @@ jobs:
         PORT: 3000
         DB_HOST: localhost
         DB_PORT: 5432
-        DB_NAME: movierame
+        DB_NAME: movierama
         DB_USER: movie
         DB_PASSWORD: password
         TOKEN_SECRET: secret
@@ -58,3 +58,41 @@ jobs:
       run: |
         npm install
         npm run test
+
+  integration-test:
+    name: integration-test
+    runs-on: ubuntu-latest
+    container: node:16
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - run: echo "Running integration test job on ${{ runner.os }}, triggered from ${{ github.event_name }} event at ${{ github.ref }} branch."
+
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+    - uses: iamsauravsharma/create-dotenv@v1.2.2
+      with:
+        file-name: '.env.integration'
+      env:
+        NODE_ENV: integration
+        PORT: 3000
+        DB_HOST: postgres
+        DB_PORT: 5432
+        DB_NAME: postgres
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        TOKEN_SECRET: secret
+
+    - name: Unit test code
+      run: |
+        npm install
+        npm run test:integration
