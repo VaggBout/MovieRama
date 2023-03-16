@@ -178,7 +178,7 @@ In order to run integration tests you will also need the following:
 
 -   A running and accessible instance of Postgres
 -   A Postgres user with privileges to create/drop databases
--   A default database where use has access
+-   A default database where user has access
 
 If you don't have one, refer to [Database setup](#database-setup) to deploy one using Docker.
 
