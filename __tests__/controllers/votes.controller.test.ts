@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
-import * as VoteController from "../../src/controllers/api/vote";
+import * as VotesController from "../../src/controllers/api/votes";
 import { Vote } from "../../src/models/vote";
 import * as VoteService from "../../src/services/vote";
 import express from "express";
@@ -36,7 +36,7 @@ describe("Vote controller", () => {
                 }),
             } as unknown as express.Response;
 
-            await VoteController.post(req, res);
+            await VotesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
         });
 
@@ -65,7 +65,7 @@ describe("Vote controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await VoteController.post(req, res);
+            await VotesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(400);
         });
@@ -95,7 +95,7 @@ describe("Vote controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await VoteController.post(req, res);
+            await VotesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
         });
@@ -122,7 +122,7 @@ describe("Vote controller", () => {
                 },
             } as unknown as express.Response;
 
-            await VoteController.remove(req, res);
+            await VotesController.remove(req, res);
             expect(res.send).toHaveBeenCalledTimes(1);
             expect(mockRemoveVote).toHaveBeenCalledTimes(1);
         });
@@ -152,7 +152,7 @@ describe("Vote controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await VoteController.remove(req, res);
+            await VotesController.remove(req, res);
             expect(res.send).toHaveBeenCalledTimes(1);
             expect(res.send).toHaveBeenCalledWith({ error: "test-error" });
             expect(mockRemoveVote).toHaveBeenCalledTimes(1);
@@ -182,7 +182,7 @@ describe("Vote controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await VoteController.remove(req, res);
+            await VotesController.remove(req, res);
             expect(res.send).toHaveBeenCalledTimes(1);
             expect(res.send).toHaveBeenCalledWith({
                 error: "Something went wrong!",

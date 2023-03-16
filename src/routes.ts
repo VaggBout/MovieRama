@@ -4,9 +4,9 @@ import * as HomeController from "./controllers/home";
 import * as UserController from "./controllers/user";
 
 import * as LoginApiController from "./controllers/api/login";
-import * as MovieApiController from "./controllers/api/movie";
+import * as MovieApiController from "./controllers/api/movies";
 import * as RegisterApiController from "./controllers/api/register";
-import * as VoteApiController from "./controllers/api/vote";
+import * as VoteApiController from "./controllers/api/votes";
 
 import * as UserMiddleware from "./middlewares/user";
 import * as RegisterMiddleware from "./middlewares/register";

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
-import * as MovieController from "../../src/controllers/api/movie";
+import * as MoviesController from "../../src/controllers/api/movies";
 import { Movie } from "../../src/models/movie";
 import * as MovieService from "../../src/services/movie";
 import express from "express";
@@ -43,7 +43,7 @@ describe("Movie controller", () => {
                 }),
             } as unknown as express.Response;
 
-            await MovieController.post(req, res);
+            await MoviesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
         });
 
@@ -72,7 +72,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.post(req, res);
+            await MoviesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(400);
         });
@@ -102,7 +102,7 @@ describe("Movie controller", () => {
                 statusCode: 0,
             } as unknown as express.Response;
 
-            await MovieController.post(req, res);
+            await MoviesController.post(req, res);
             expect(mockCreate).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
         });
@@ -156,7 +156,7 @@ describe("Movie controller", () => {
                 send: jest.fn(),
             } as unknown as express.Response;
 
-            await MovieController.get(req, res);
+            await MoviesController.get(req, res);
             expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
             expect(mockGetMoviesPage).toHaveBeenCalledWith(
                 "ASC",
@@ -194,7 +194,7 @@ describe("Movie controller", () => {
                 send: jest.fn(),
             } as unknown as express.Response;
 
-            await MovieController.get(req, res);
+            await MoviesController.get(req, res);
             expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
             expect(res.send).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
