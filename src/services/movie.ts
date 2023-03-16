@@ -4,6 +4,7 @@ import { OperationResult } from "../types/common";
 import { MovieDto, MovieListDto } from "../types/dto";
 
 export async function create(data: MovieDto): Promise<OperationResult<Movie>> {
+    data.title = data.title.trim();
     const existingMovie = await Movie.findByTitle(data.title);
 
     if (existingMovie) {
