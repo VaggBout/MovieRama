@@ -22,6 +22,8 @@ export async function register(
         };
     }
 
+    userData.email = userData.email.trim();
+    userData.name = userData.name.trim();
     const hash = await generateHash(password);
     const user = await User.create(userData, hash);
 
