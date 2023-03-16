@@ -13,9 +13,9 @@
     "test:integration": "ENV=integration jest --coverage --detectOpenHandles --config=jest.config.integration.ts",
     "docker:build": "tsc",
     "postdocker:build": "cp -r src/views public dist/src/",
-    "predocker": "./scripts/wait-for.sh db:5432 -- npm run migrate -- --config db-migrate.json",
+    "predocker": "./scripts/wait-for.sh db:5432 -- npm run migrate",
     "docker": "node src/server.js",
-    "migrate": "db-migrate up",
+    "migrate": "db-migrate up --config db-migrate.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "husky:install": "husky install"

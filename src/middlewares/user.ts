@@ -23,7 +23,6 @@ export async function populateAuthUser(
     }
 
     try {
-        // const user = await User.findById(validatedToken.id);
         const result = await UserService.find(validatedToken.id);
 
         if (result.data) {

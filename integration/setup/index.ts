@@ -19,7 +19,7 @@ const dbmDefaultConfig = {
             port: config.dbPort,
             host: config.dbHost,
             schema: "public",
-            database: "postgres",
+            database: config.dbName,
         },
     },
 };
