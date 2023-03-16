@@ -96,7 +96,7 @@ async function generateHash(s: string): Promise<string> {
         const hash = await bcrypt.hash(s, saltRounds);
         return hash;
     } catch (error) {
-        throw new Error(`Error hasing ${s}. Error: ${JSON.stringify(error)}`);
+        throw new Error(`Error hashing ${s}. Error: ${JSON.stringify(error)}`);
     }
 }
 
