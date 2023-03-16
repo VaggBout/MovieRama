@@ -110,8 +110,8 @@ describe("Movie controller", () => {
 
     describe("get", () => {
         test("returns rendered html and totalMovies", async () => {
-            const mockGetMoviesPage = jest
-                .spyOn(MovieService, "getMoviesPage")
+            const mockGetMoviesList = jest
+                .spyOn(MovieService, "getMoviesList")
                 .mockImplementationOnce(() =>
                     Promise.resolve({
                         data: {
@@ -126,6 +126,7 @@ describe("Movie controller", () => {
                                     likes: 1,
                                     hates: 1,
                                     vote: true,
+                                    date: DateTime.now(),
                                 },
                             ],
                             totalMovies: 1,
@@ -157,8 +158,8 @@ describe("Movie controller", () => {
             } as unknown as express.Response;
 
             await MoviesController.get(req, res);
-            expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
-            expect(mockGetMoviesPage).toHaveBeenCalledWith(
+            expect(mockGetMoviesList).toHaveBeenCalledTimes(1);
+            expect(mockGetMoviesList).toHaveBeenCalledWith(
                 "ASC",
                 5,
                 10,
@@ -175,8 +176,8 @@ describe("Movie controller", () => {
         });
 
         test("respond with 500 when movies service throws", async () => {
-            const mockGetMoviesPage = jest
-                .spyOn(MovieService, "getMoviesPage")
+            const mockGetMoviesList = jest
+                .spyOn(MovieService, "getMoviesList")
                 .mockImplementationOnce(() => {
                     throw new Error("test");
                 });
@@ -195,7 +196,7 @@ describe("Movie controller", () => {
             } as unknown as express.Response;
 
             await MoviesController.get(req, res);
-            expect(mockGetMoviesPage).toHaveBeenCalledTimes(1);
+            expect(mockGetMoviesList).toHaveBeenCalledTimes(1);
             expect(res.send).toHaveBeenCalledTimes(1);
             expect(res.statusCode).toBe(500);
         });

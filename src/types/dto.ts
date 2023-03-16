@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { MovieCard } from "../models/movieCard";
 
 interface UserDto {
     email: string;
@@ -13,27 +14,15 @@ interface MovieDto {
     userId: number;
 }
 
-interface MovieEntryDto {
-    id: number;
-    title: string;
-    description: string;
-    daysElapsed: string;
-    userId: number;
-    userName: string;
-    likes: number;
-    hates: number;
-    vote: boolean | null;
-}
-
 interface VoteDto {
     userId: number;
     movieId: number;
     like: boolean;
 }
 
-interface MoviesPageDto {
-    movies: Array<MovieEntryDto>;
+interface MovieListDto {
+    movies: Array<MovieCard>;
     totalMovies: number;
 }
 
-export { UserDto, MovieDto, MovieEntryDto, MoviesPageDto, VoteDto };
+export { UserDto, MovieDto, MovieListDto, VoteDto };

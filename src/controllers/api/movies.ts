@@ -49,7 +49,7 @@ export async function get(
         const limit = req.query.limit ? req.query.limit : 5;
         const creatorId = req.query.creatorId ? req.query.creatorId : null;
 
-        const result = await MovieService.getMoviesPage(
+        const result = await MovieService.getMoviesList(
             sort,
             limit,
             page * limit,

@@ -22,7 +22,7 @@ export async function get(
         const page = req.query.page ? req.query.page : 0;
         const limit = req.query.limit ? req.query.limit : 5;
 
-        const result = await MovieService.getMoviesPage(
+        const result = await MovieService.getMoviesList(
             sort,
             limit,
             page * limit,
