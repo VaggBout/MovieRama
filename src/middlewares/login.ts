@@ -21,9 +21,9 @@ export function validateLoginReq(
     >loginValidator.validate(req.body, { errors: { escapeHtml: true } });
 
     if (error) {
-        logger.warn(`Invalid login body. Error: ${JSON.stringify(error)}`);
+        logger.warn(`Invalid login body. Error: ${error.message}`);
         res.statusCode = 400;
-        res.send({ error: "Invalid body" });
+        res.send({ error: error.message });
         return;
     }
 

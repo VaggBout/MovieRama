@@ -32,11 +32,9 @@ export function validateCreateMovieReq(
     >movieValidator.validate(req.body, { errors: { escapeHtml: true } });
 
     if (error) {
-        logger.warn(
-            `Invalid create movie body. Error: ${JSON.stringify(error)}`
-        );
+        logger.warn(`Invalid create movie body. Error: ${error.message}`);
         res.statusCode = 400;
-        res.send({ error: "Invalid body" });
+        res.send({ error: error.message });
         return;
     }
 
@@ -50,7 +48,7 @@ export function validateApiMoviesReq(
 ) {
     const error = validate(req);
     if (error) {
-        logger.warn(`Invalid query params. Error: ${JSON.stringify(error)}`);
+        logger.warn(`Invalid create movie body. Error: ${error.message}`);
         res.statusCode = 400;
         res.send({ error: "Invalid request" });
         return;
@@ -66,7 +64,7 @@ export function validateRenderMoviesReq(
 ) {
     const error = validate(req);
     if (error) {
-        logger.warn(`Invalid query params. Error: ${JSON.stringify(error)}`);
+        logger.warn(`Invalid create movie body. Error: ${error.message}`);
         // In case params are invalid discard them
         req.query = {};
     }

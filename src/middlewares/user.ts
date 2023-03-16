@@ -50,9 +50,7 @@ export async function validateUserIdParam(
     >validator.validate(req.params, { errors: { escapeHtml: true } });
 
     if (error) {
-        logger.warn(
-            `Invalid user id in url params. Error: ${JSON.stringify(error)}`
-        );
+        logger.warn(`Invalid user id in url params. Error: ${error.message}`);
         return res.redirect("/404");
     }
 

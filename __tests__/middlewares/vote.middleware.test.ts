@@ -34,7 +34,7 @@ describe("Vote middleware", () => {
                 },
                 statusCode: 0,
                 send: jest.fn().mockImplementationOnce((body: any) => {
-                    expect(body.error).toBe("Invalid body");
+                    expect(body.error).toBe('"like" must be a boolean');
                 }),
             } as unknown as express.Response;
 

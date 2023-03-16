@@ -14,7 +14,7 @@ describe("Validate login middleware", () => {
         const res = {
             statusCode: 0,
             send: jest.fn().mockImplementationOnce((body: any) => {
-                expect(body.error).toBe("Invalid body");
+                expect(body.error).toBe('"password" is required');
             }),
         } as unknown as express.Response;
 

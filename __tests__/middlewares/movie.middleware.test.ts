@@ -33,7 +33,7 @@ describe("Movie middleware", () => {
                 },
                 statusCode: 0,
                 send: jest.fn().mockImplementationOnce((body: any) => {
-                    expect(body.error).toBe("Invalid body");
+                    expect(body.error).toBe('"description" is required');
                 }),
             } as unknown as express.Response;
 

@@ -21,7 +21,7 @@ export function validateCreateVoteReq(
     }
 
     const voteValidator = Joi.object({
-        movieId: Joi.number().required(),
+        movieId: Joi.number().min(1).max(Number.MAX_SAFE_INTEGER).required(),
         like: Joi.boolean().required(),
     });
 
@@ -32,11 +32,9 @@ export function validateCreateVoteReq(
     >voteValidator.validate(req.body, { errors: { escapeHtml: true } });
 
     if (error) {
-        logger.warn(
-            `Invalid create vote body. Error: ${JSON.stringify(error)}`
-        );
+        logger.warn(`Invalid create vote body. Error: ${error.message}`);
         res.statusCode = 400;
-        res.send({ error: "Invalid body" });
+        res.send({ error: error.message });
         return;
     }
 
@@ -72,11 +70,9 @@ export function validateRemoveVoteReq(
     >voteValidator.validate(req.query, { errors: { escapeHtml: true } });
 
     if (error) {
-        logger.warn(
-            `Invalid remove vote body. Error: ${JSON.stringify(error)}`
-        );
+        logger.warn(`Invalid remove vote body. Error: ${error.message}`);
         res.statusCode = 400;
-        res.send({ error: "Invalid body" });
+        res.send({ error: error.message });
         return;
     }
 

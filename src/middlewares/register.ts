@@ -22,9 +22,9 @@ export function validateRegisterReq(
     >validator.validate(req.body);
 
     if (error) {
-        logger.warn(`Invalid new user body. Error: ${JSON.stringify(error)}`);
+        logger.warn(`Invalid register body. Error: ${error.message}`);
         res.statusCode = 400;
-        res.send({ error: "Invalid body" });
+        res.send({ error: error.message });
         return;
     }
 
