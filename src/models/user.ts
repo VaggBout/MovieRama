@@ -47,7 +47,6 @@ export class User {
             SELECT email, name, hash, id
             FROM users
             WHERE email = $1
-            LIMIT 1;
         `;
 
         const params = [email];
@@ -76,7 +75,6 @@ export class User {
             SELECT email, name, hash, id
             FROM users
             WHERE id = $1
-            LIMIT 1;
         `;
 
         const params = [id];
