@@ -7,7 +7,7 @@ type MoviesOrder = "date" | "likes" | "hates";
 
 type MoviesSort = "DESC" | "ASC";
 
-interface MoviesPageParams {
+interface MovieListParams {
     order?: MoviesOrder;
     sort?: MoviesSort;
     page?: number;
@@ -23,4 +23,4 @@ interface ReqBody {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ResBody {}
 
-export { OperationResult, MoviesPageParams, ReqParams, ReqBody, ResBody };
+export { OperationResult, MovieListParams, ReqParams, ReqBody, ResBody };

@@ -4,7 +4,7 @@ import { MovieDto } from "../../types/dto";
 import * as MovieService from "../../services/movie";
 import { DateTime } from "luxon";
 import {
-    MoviesPageParams,
+    MovieListParams,
     ReqBody,
     ReqParams,
     ResBody,
@@ -37,7 +37,7 @@ export async function post(req: Request, res: Response): Promise<void> {
 }
 
 export async function get(
-    req: Request<ReqParams, ResBody, ReqBody, MoviesPageParams>,
+    req: Request<ReqParams, ResBody, ReqBody, MovieListParams>,
     res: Response
 ): Promise<void> {
     try {

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import * as MovieService from "../services/movie";
-import { ReqBody, ReqParams, MoviesPageParams, ResBody } from "../types/common";
+import { ReqBody, ReqParams, MovieListParams, ResBody } from "../types/common";
 
 export async function get(
-    req: Request<ReqParams, ResBody, ReqBody, MoviesPageParams>,
+    req: Request<ReqParams, ResBody, ReqBody, MovieListParams>,
     res: Response
 ): Promise<void> {
     try {
