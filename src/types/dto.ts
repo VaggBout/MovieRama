@@ -4,7 +4,6 @@ import { MovieCard } from "../models/movieCard";
 interface UserDto {
     email: string;
     name: string;
-    hash: string;
 }
 
 interface MovieDto {

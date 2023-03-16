@@ -40,10 +40,9 @@ describe("Login (e2e)", () => {
         const userDto: UserDto = {
             name: "test",
             email: "test@email.com",
-            hash: "password!",
         };
 
-        const result = await UserService.register(userDto);
+        const result = await UserService.register(userDto, "password!");
         expect(result.error).toBeUndefined();
 
         const body = {

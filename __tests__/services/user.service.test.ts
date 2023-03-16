@@ -31,10 +31,9 @@ describe("User service", () => {
             const userDto: UserDto = {
                 name: "test name",
                 email: "test@email.com",
-                hash: "password",
             };
 
-            const result = await UserService.register(userDto);
+            const result = await UserService.register(userDto, "password");
 
             expect(result.error).toBeUndefined();
             expect(result.data).toBeDefined();
@@ -60,10 +59,9 @@ describe("User service", () => {
             const userDto: UserDto = {
                 name: "test name",
                 email: "test@email.com",
-                hash: "password",
             };
 
-            const result = await UserService.register(userDto);
+            const result = await UserService.register(userDto, "password");
             expect(result.data).toBeUndefined();
             expect(result.error).toBe(
                 "User with email test@email.com already exists"
@@ -83,10 +81,9 @@ describe("User service", () => {
             const userDto: UserDto = {
                 name: "test name",
                 email: "test@email.com",
-                hash: "password",
             };
 
-            const result = await UserService.register(userDto);
+            const result = await UserService.register(userDto, "password");
             expect(result.data).toBeUndefined();
             expect(result.error).toBe("Failed to create user");
 

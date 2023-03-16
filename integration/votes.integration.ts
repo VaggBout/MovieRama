@@ -39,11 +39,13 @@ describe("Votes (e2e)", () => {
     });
 
     test("should respond with error when creator tries to vote his movie", async () => {
-        const result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(result.error).toBeUndefined();
 
         await MovieService.create({
@@ -77,18 +79,22 @@ describe("Votes (e2e)", () => {
     });
 
     test("should respond with vote date when vote is created", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         await MovieService.create({
@@ -120,18 +126,22 @@ describe("Votes (e2e)", () => {
     });
 
     test("should respond 200 when vote is removed", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         const movieResult = await MovieService.create({
@@ -167,11 +177,13 @@ describe("Votes (e2e)", () => {
     });
 
     test("should respond with error when movie does not exist", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
         const loginBody = {

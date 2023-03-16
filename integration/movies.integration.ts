@@ -40,11 +40,13 @@ describe("Movie (e2e)", () => {
     });
 
     test("Should respond with movie data when movie is created", async () => {
-        const result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(result.error).toBeUndefined();
 
         const loginBody = {
@@ -82,11 +84,13 @@ describe("Movie (e2e)", () => {
     });
 
     test("should respond with error when movie title already exists", async () => {
-        const result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(result.error).toBeUndefined();
 
         await MovieService.create({
@@ -121,11 +125,13 @@ describe("Movie (e2e)", () => {
     });
 
     test("Should respond with correct rendered html of a movies page based on query", async () => {
-        const result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(result.error).toBeUndefined();
 
         // Create 5 movies
@@ -198,18 +204,22 @@ describe("Movie (e2e)", () => {
     });
 
     test("Should render movies based on user vote when user is logged in", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         // Create 5 movies
@@ -266,18 +276,22 @@ describe("Movie (e2e)", () => {
     });
 
     test("Should render movies of user when creatorId is provided", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         // Create 5 movies for user1

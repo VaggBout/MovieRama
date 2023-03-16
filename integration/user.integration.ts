@@ -39,18 +39,22 @@ describe("Home page (e2e)", () => {
     });
 
     test("Should render user profile page with correct data for non-logged-in user", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         await MovieService.create({
@@ -84,18 +88,22 @@ describe("Home page (e2e)", () => {
     });
 
     test("Should render user profile page with correct data for logged-in user", async () => {
-        const user1Result = await UserService.register({
-            name: "test",
-            email: "test@email.com",
-            hash: "password!",
-        });
+        const user1Result = await UserService.register(
+            {
+                name: "test",
+                email: "test@email.com",
+            },
+            "password!"
+        );
         expect(user1Result.error).toBeUndefined();
 
-        const user2Result = await UserService.register({
-            name: "test",
-            email: "test2@email.com",
-            hash: "password!",
-        });
+        const user2Result = await UserService.register(
+            {
+                name: "test",
+                email: "test2@email.com",
+            },
+            "password!"
+        );
         expect(user2Result.error).toBeUndefined();
 
         await MovieService.create({

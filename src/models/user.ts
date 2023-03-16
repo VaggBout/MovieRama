@@ -15,7 +15,10 @@ export class User {
         this.hash = hash;
     }
 
-    public static async create(data: UserDto): Promise<User | null> {
+    public static async create(
+        data: UserDto,
+        hash: string
+    ): Promise<User | null> {
         const query = `
             INSERT INTO users
             (email, name, hash)
@@ -23,7 +26,7 @@ export class User {
             RETURNING id;
         `;
 
-        const params = [data.email, data.name, data.hash];
+        const params = [data.email, data.name, hash];
         try {
             const result = await getDb().query(query, params);
             if (result.rowCount === 0) {
@@ -34,7 +37,7 @@ export class User {
                 result.rows[0].id as number,
                 data.email,
                 data.name,
-                data.hash
+                hash
             );
         } catch (error) {
             logger.error(`Failed to create new user entry. Error: ${error}`);

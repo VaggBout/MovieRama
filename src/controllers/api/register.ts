@@ -6,10 +6,9 @@ export async function post(req: Request, res: Response): Promise<void> {
     const userDto: UserDto = {
         email: req.body.email,
         name: req.body.name,
-        hash: req.body.password,
     };
     try {
-        const result = await UserService.register(userDto);
+        const result = await UserService.register(userDto, req.body.password);
         if (result.error) {
             res.statusCode = 400;
             res.send({ error: result.error });

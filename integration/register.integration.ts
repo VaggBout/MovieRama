@@ -53,11 +53,13 @@ describe("Register (e2e)", () => {
     });
 
     test("Should respond with error when provided email already exists", async () => {
-        await User.create({
-            email: "email@test.com",
-            name: "test",
-            hash: "hash",
-        });
+        await User.create(
+            {
+                email: "email@test.com",
+                name: "test",
+            },
+            "hash"
+        );
 
         const body = {
             email: "email@test.com",

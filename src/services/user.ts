@@ -11,7 +11,8 @@ const saltRounds = 10;
 const jwtSignature = config.tokenSecret;
 
 export async function register(
-    userData: UserDto
+    userData: UserDto,
+    password: string
 ): Promise<OperationResult<User>> {
     const existingUser = await User.findByEmail(userData.email);
 
@@ -21,8 +22,9 @@ export async function register(
         };
     }
 
-    userData.hash = await generateHash(userData.hash);
-    const user = await User.create(userData);
+    const hash = await generateHash(password);
+    const user = await User.create(userData, hash);
+
     if (!user) {
         return {
             error: "Failed to create user",
