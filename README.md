@@ -20,6 +20,14 @@ HTTP Basic Auth:
 -   User: workable
 -   Password: movierama!#
 
+Some mock users have already been created and can be used to log-in and add movies. You can also create your own user!  
+Email | Password |
+-------------------- | -----------|
+j.smith@email.com | abc123! |
+k.johnson@email.com | abc123! |
+l.prescott@email.com | abc123! |
+b.cuba@email.com | abc123! |
+
 # Deployment
 
 You can deploy the service either directly on your host machine or using Docker.
