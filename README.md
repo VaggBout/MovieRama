@@ -2,13 +2,17 @@
 
 A social sharing platform where users can share their favorite movies.
 
-# Technology stack
+# Features
 
-The application was developed in Typescript using NodeJS 16.x, Express and EJS while following MVC framework.
-Furthermore, Postgres was used as a database, github Actions for CI/CD and docker for deploying the application.  
-Finally, ES6, Axios and Bootstrap were used for the frontend.
+-   User management (Login/Logout/Register) through JWT tokens
+-   Add new movies (for logged-in users)
+-   Vote movies (for logged-in users)
+-   Homepage - View movies list with pagination
+-   Profile page - View movies a user submitted with pagination
 
-# Installation
+# Deployment
+
+You can deploy the service either directly on your host machine or using Docker.
 
 ## a. Run on Host
 
@@ -21,7 +25,7 @@ git clone https://github.com/VaggBout/MovieRama.git
 ### Database setup
 
 Before proceeding you will need an accessible running instance of Postgres with an empty database and a user who has access to it.  
-If you don't have one you can spawn using [Docker](https://docs.docker.com/engine/install/) and the existing `docker-compose.yml` in the project. From the root folder of the project simply run:
+If you don't have one you can spawn using [Docker](https://docs.docker.com/engine/install/) and the existing `docker-compose.yml` in the project. From the root folder of the project run:
 
 ```bash
 docker-compose -f docker/docker-compose.yml up -d db
@@ -67,7 +71,7 @@ TOKEN_SECRET=secret
 
 ### Run application
 
-In order to start the application simply run the following:
+In order to start the application run the following:
 
 ```bash
 npm run build
@@ -76,7 +80,7 @@ npm run start
 ```
 
 The aforementioned scripts will compile the application, run the necessary DB migrations to create the schema and bootstrap the server.  
-After the server starts simple visit http://localhost:3000/.
+After the server starts visit http://localhost:3000/.
 
 ## b. Run on Docker
 
@@ -116,15 +120,15 @@ TOKEN_SECRET=secret
 
 ### Run application
 
-In order to start the application simply run
+In order to start the application run
 
 ```bash
 docker-compose -f docker/docker-compose.yml up db movie_rama
 ```
 
 This command will spawn two containers, one database (Postgres) and one instance of the application MovieRama.  
-The application will connect to the db, based on the aforementioned configuration, and will automatically run the necessary DB migrations to create the schema.
-After the containers finish building simple visit http://localhost:3000/.
+The application will connect to the db, based on the aforementioned configuration, and will automatically run the necessary DB migrations to create the schema.  
+After the containers finish building visit http://localhost:3000/.
 
 # Run tests
 
@@ -216,6 +220,6 @@ NOTE: When running integration tests, each suite will create a new database with
 
 Github Actions are used to run CI/CD for this repository. Currently 3 tasks are defined, that are executed when pushing on `master` or when opening a pull request on `master`:
 
--   `lint`: Run the linter
--   `unit-test`: Runs the unit tests
--   `integration-test`: Runs the integration tests
+-   `lint`: Lint code
+-   `unit-test`: Runs unit tests
+-   `integration-test`: Runs integration tests
