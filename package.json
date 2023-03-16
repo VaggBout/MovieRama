@@ -1,5 +1,5 @@
 {
-  "name": "movierama-backend",
+  "name": "movierama",
   "version": "0.0.1",
   "description": "A social sharing platform where users can share their favorite movies",
   "main": "src/server.ts",
