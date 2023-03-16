@@ -159,7 +159,10 @@ describe("Votes (e2e)", () => {
             .send(loginBody)
             .expect(200)
             .then(() =>
-                agent.delete(`/api/votes/${movieResult.data?.id}`).expect(200)
+                agent
+                    .delete("/api/votes")
+                    .query({ movieId: movieResult.data?.id })
+                    .expect(200)
             );
     });
 
@@ -181,7 +184,9 @@ describe("Votes (e2e)", () => {
             .post("/api/login")
             .send(loginBody)
             .expect(200)
-            .then(() => agent.delete("/api/votes/1").expect(400));
+            .then(() =>
+                agent.delete("/api/votes").query({ movieId: 1 }).expect(400)
+            );
 
         expect(response.body.error).toBe("Failed to remove vote entry");
     });

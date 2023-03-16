@@ -281,7 +281,7 @@ async function voteMovie(movieId, like) {
 
 async function removeVote(movieId) {
     try {
-        await axios.delete(`/api/votes/${movieId}`);
+        await axios.delete(`/api/votes`, { params: { movieId } });
     } catch (error) {
         console.error(error);
     }

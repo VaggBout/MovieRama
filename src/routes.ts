@@ -58,7 +58,7 @@ apiRoutes.post(
 );
 
 apiRoutes.delete(
-    "/votes/:id",
+    "/votes",
     VoteMiddleware.validateRemoveVoteReq,
     VoteApiController.remove
 );

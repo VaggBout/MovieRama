@@ -62,14 +62,14 @@ export function validateRemoveVoteReq(
     }
 
     const voteValidator = Joi.object({
-        id: Joi.number().min(1).max(Number.MAX_SAFE_INTEGER).required(),
+        movieId: Joi.number().min(1).max(Number.MAX_SAFE_INTEGER).required(),
     });
 
     const { error } = <
         {
             error: ValidationError;
         }
-    >voteValidator.validate(req.params, { errors: { escapeHtml: true } });
+    >voteValidator.validate(req.query, { errors: { escapeHtml: true } });
 
     if (error) {
         logger.warn(

@@ -71,8 +71,8 @@ describe("Vote middleware", () => {
         test("should invoke next when request is valid", () => {
             const next = jest.fn();
             const req = {
-                params: {
-                    id: 1,
+                query: {
+                    movieId: 1,
                 },
             } as unknown as express.Request;
 
@@ -91,8 +91,8 @@ describe("Vote middleware", () => {
         test("should respond with 401 when user is not logged in", () => {
             const next = jest.fn();
             const req = {
-                params: {
-                    id: 1,
+                query: {
+                    movieId: 1,
                 },
             } as unknown as express.Request;
 
@@ -111,8 +111,8 @@ describe("Vote middleware", () => {
         test("should respond with 400 when url params are invalid", () => {
             const next = jest.fn();
             const req = {
-                params: {
-                    id: "invalid-params",
+                query: {
+                    movieId: "invalid-params",
                 },
             } as unknown as express.Request;
 

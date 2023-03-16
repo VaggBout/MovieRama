@@ -108,8 +108,8 @@ describe("Vote controller", () => {
                 .mockImplementationOnce(() => Promise.resolve({}));
 
             const req = {
-                params: {
-                    id: 1,
+                query: {
+                    movieId: 1,
                 },
             } as unknown as express.Request;
 
@@ -137,8 +137,8 @@ describe("Vote controller", () => {
                 );
 
             const req = {
-                params: {
-                    id: 1,
+                query: {
+                    movieId: 1,
                 },
             } as unknown as express.Request;
 
@@ -167,8 +167,8 @@ describe("Vote controller", () => {
                 });
 
             const req = {
-                params: {
-                    id: 1,
+                query: {
+                    movieId: 1,
                 },
             } as unknown as express.Request;
 
