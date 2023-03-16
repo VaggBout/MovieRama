@@ -159,7 +159,7 @@ In order to run tests you will need a NodeJs 16.x installation in you system. Ot
 Run:
 
 ```bash
-npm run install
+npm install
 ```
 
 ### Configuration file
@@ -205,7 +205,7 @@ If you don't have one, refer to [Database setup](#database-setup) to deploy one 
 Run:
 
 ```bash
-npm run install
+npm install
 ```
 
 ### Configuration file
