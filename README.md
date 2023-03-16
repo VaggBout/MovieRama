@@ -10,6 +10,16 @@ A social sharing platform where users can share their favorite movies.
 -   Homepage - View movies list with pagination
 -   Profile page - View movies a user submitted with pagination
 
+# View
+
+You can view a running instance of the service here:  
+http://83.212.107.221/
+
+HTTP Basic Auth:
+
+-   User: workable
+-   Password: movierama!#
+
 # Deployment
 
 You can deploy the service either directly on your host machine or using Docker.
